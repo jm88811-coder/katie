@@ -3,14 +3,17 @@ import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import './index.css';
 import App from './App.tsx';
+import { AuthProvider } from './context/AuthContext.tsx';
 import { DataProvider } from './context/DataContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
-      <DataProvider>
-        <App />
-      </DataProvider>
+      <AuthProvider>
+        <DataProvider>
+          <App />
+        </DataProvider>
+      </AuthProvider>
     </HashRouter>
   </StrictMode>,
 );

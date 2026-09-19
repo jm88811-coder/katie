@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 
 const NAV_ITEMS = [
   { to: '/', label: '대시보드', icon: '🏠', end: true },
@@ -12,6 +14,14 @@ const NAV_ITEMS = [
 
 export default function Layout() {
   const [navOpen, setNavOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const { loading } = useData();
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await signOut();
+    navigate('/login');
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 lg:flex">
@@ -27,7 +37,7 @@ export default function Layout() {
       </header>
 
       <aside
-        className={`no-print border-b border-slate-200 bg-white lg:block lg:w-60 lg:shrink-0 lg:border-b-0 lg:border-r lg:min-h-screen ${
+        className={`no-print border-b border-slate-200 bg-white lg:flex lg:w-60 lg:shrink-0 lg:flex-col lg:border-b-0 lg:border-r lg:min-h-screen ${
           navOpen ? 'block' : 'hidden'
         }`}
       >
@@ -55,11 +65,27 @@ export default function Layout() {
             </NavLink>
           ))}
         </nav>
+        <div className="mt-auto border-t border-slate-100 px-3 py-3">
+          <p className="truncate px-3 text-xs text-slate-400">{user?.email}</p>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:bg-slate-100"
+          >
+            로그아웃
+          </button>
+        </div>
       </aside>
 
       <main className="flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
         <div className="mx-auto max-w-6xl">
-          <Outlet />
+          {loading ? (
+            <div className="flex min-h-[60vh] items-center justify-center text-sm text-slate-400">
+              데이터를 불러오는 중...
+            </div>
+          ) : (
+            <Outlet />
+          )}
         </div>
       </main>
     </div>

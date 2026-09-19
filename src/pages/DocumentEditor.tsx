@@ -26,6 +26,7 @@ export default function DocumentEditor() {
   const [status, setStatus] = useState<DocumentStatus>(existing?.status ?? 'draft');
   const [memo, setMemo] = useState(existing?.memo ?? '');
   const [items, setItems] = useState<DocumentItem[]>(existing?.items ?? [newItem()]);
+  const [saving, setSaving] = useState(false);
 
   function updateItem(itemId: string, patch: Partial<DocumentItem>) {
     setItems((prev) => prev.map((it) => (it.id === itemId ? { ...it, ...patch } : it)));
@@ -35,7 +36,7 @@ export default function DocumentEditor() {
     setItems((prev) => (prev.length > 1 ? prev.filter((it) => it.id !== itemId) : prev));
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!clientId) {
       alert('거래처를 선택해주세요. 거래처가 없다면 먼저 고객 관리에서 등록해주세요.');
@@ -52,12 +53,15 @@ export default function DocumentEditor() {
       status,
       memo: memo || undefined,
     };
+    setSaving(true);
     if (existing) {
-      updateDocument(existing.id, payload);
+      await updateDocument(existing.id, payload);
+      setSaving(false);
       navigate(`/documents/${existing.id}`);
     } else {
-      const doc = addDocument(payload);
-      navigate(`/documents/${doc.id}`);
+      const doc = await addDocument(payload);
+      setSaving(false);
+      if (doc) navigate(`/documents/${doc.id}`);
     }
   }
 
@@ -186,7 +190,9 @@ export default function DocumentEditor() {
           <Button type="button" variant="secondary" onClick={() => navigate(-1)}>
             취소
           </Button>
-          <Button type="submit">저장</Button>
+          <Button type="submit" disabled={saving}>
+            {saving ? '저장 중...' : '저장'}
+          </Button>
         </div>
       </form>
     </div>

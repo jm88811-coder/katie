@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
+import RequireAuth from './components/RequireAuth';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Documents from './pages/Documents';
@@ -13,7 +15,14 @@ import Settings from './pages/Settings';
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route path="/login" element={<Login />} />
+      <Route
+        element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }
+      >
         <Route path="/" element={<Dashboard />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/documents" element={<Documents />} />

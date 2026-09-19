@@ -6,10 +6,13 @@ export default function Settings() {
   const { profile, updateProfile } = useData();
   const [form, setForm] = useState(profile);
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    updateProfile(form);
+    setSaving(true);
+    await updateProfile(form);
+    setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
@@ -43,7 +46,9 @@ export default function Settings() {
             </Field>
           </div>
           <div className="flex items-center gap-3 sm:col-span-2">
-            <Button type="submit">저장</Button>
+            <Button type="submit" disabled={saving}>
+              {saving ? '저장 중...' : '저장'}
+            </Button>
             {saved && <span className="text-sm text-emerald-600">저장되었습니다.</span>}
           </div>
         </form>
@@ -52,8 +57,8 @@ export default function Settings() {
       <Card className="mt-6 max-w-2xl">
         <h2 className="mb-2 text-sm font-semibold text-slate-900">데이터 안내</h2>
         <p className="text-sm text-slate-500">
-          모든 데이터는 이 브라우저에만 저장됩니다 (서버 전송 없음). 브라우저 저장 공간을 초기화하면 데이터가 사라질 수 있으니
-          주의하세요.
+          모든 데이터는 Supabase 클라우드 데이터베이스에 저장되며, 로그인한 계정으로만 접근할 수 있습니다. 다른 기기에서
+          같은 계정으로 로그인하면 동일한 데이터를 이어서 사용할 수 있습니다.
         </p>
       </Card>
     </div>

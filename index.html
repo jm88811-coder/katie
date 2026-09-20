@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KATIE — 사업 아이템 시뮬레이션 & 창업 비서</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<div id="app">
+
+  <header class="hero">
+    <h1><span class="logo"></span>KATIE — 창업 올인원 비서</h1>
+    <p>아이디어 발굴부터 전략 수립, 재무 시뮬레이션, 실행 체크리스트까지 — 사업가로 만들어주는 만능 비서</p>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="dashboard" class="active">대시보드</button>
+    <button data-tab="idealab">아이디어 발굴</button>
+    <button data-tab="inspiration">영감</button>
+    <button data-tab="strategy">전략 수립</button>
+    <button data-tab="simulator">시뮬레이션</button>
+    <button data-tab="checklist">체크리스트</button>
+  </nav>
+
+  <section id="dashboard" class="panel active"></section>
+  <section id="idealab" class="panel"></section>
+  <section id="inspiration" class="panel"></section>
+  <section id="strategy" class="panel"></section>
+  <section id="simulator" class="panel"></section>
+  <section id="checklist" class="panel"></section>
+
+  <p class="footer-note">KATIE는 브라우저에서만 동작하는 로컬 앱입니다. 입력한 데이터는 이 브라우저의 localStorage에만 저장되며 외부로 전송되지 않습니다.</p>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

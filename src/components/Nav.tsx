@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/tax-legal", label: "세금·법률" },
   { href: "/study", label: "스터디" },
   { href: "/ai-jobs", label: "AI 신직업" },
+  { href: "/stock", label: "주식 애널리스트" },
   { href: "/about", label: "소개" },
 ];
 

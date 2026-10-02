@@ -82,4 +82,6 @@ export const STORAGE_KEYS = {
   journeyProgress: "founderstory:journey-progress",
   inspirationNotes: "founderstory:inspiration-notes",
   consultLog: "founderstory:consult-log",
+  stockWatchlist: "founderstory:stock-watchlist",
+  stockReports: "founderstory:stock-reports",
 } as const;

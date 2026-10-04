@@ -11,11 +11,13 @@ import {
   PROPERTY_TYPES,
   SERVICES,
 } from "@/lib/data/realestate";
+import { FEE_TABLE, GUIDE_TOPICS } from "@/lib/data/realestateGuide";
 import ConsultForm from "@/components/realestate/ConsultForm";
 
 const NAV = [
   { href: "#complexes", label: "취급 단지" },
   { href: "#services", label: "중개·상담" },
+  { href: "#guide", label: "부동산 가이드" },
   { href: "#office", label: "사무소" },
   { href: "#contact", label: "상담·오시는 길" },
 ];
@@ -154,7 +156,80 @@ export default function RealEstatePage() {
           </div>
         </section>
 
-        <section id="office" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
+        <section id="guide" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
+          <SectionTitle eyebrow="GUIDE" title="알아두면 든든한 부동산 기본 가이드" />
+          <div className="flex flex-col gap-3">
+            {GUIDE_TOPICS.map((t, i) => (
+              <details
+                key={t.id}
+                open={i === 0}
+                className="group rounded-2xl border border-black/10 open:bg-black/[0.02] dark:border-white/10 dark:open:bg-white/[0.03]"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
+                  <span>
+                    <span className="block text-lg font-semibold">{t.title}</span>
+                    <span className="text-sm text-foreground/55">{t.summary}</span>
+                  </span>
+                  <span className="text-xl text-red-600 transition group-open:rotate-45 dark:text-red-400">+</span>
+                </summary>
+                <dl className="grid gap-x-8 gap-y-4 px-5 pb-6 md:grid-cols-2">
+                  {t.items.map((it) => (
+                    <div key={it.head}>
+                      <dt className="font-semibold">{it.head}</dt>
+                      <dd className="mt-1 break-keep text-sm leading-relaxed text-foreground/70">{it.body}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </details>
+            ))}
+
+            <details className="group rounded-2xl border border-black/10 open:bg-black/[0.02] dark:border-white/10 dark:open:bg-white/[0.03]">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
+                <span>
+                  <span className="block text-lg font-semibold">주택 중개보수 상한요율 (경기도)</span>
+                  <span className="text-sm text-foreground/55">거래금액별 최대 요율과 한도액</span>
+                </span>
+                <span className="text-xl text-red-600 transition group-open:rotate-45 dark:text-red-400">+</span>
+              </summary>
+              <div className="grid gap-6 px-5 pb-6 md:grid-cols-2">
+                {[
+                  { label: "매매·교환", rows: FEE_TABLE.sale },
+                  { label: "전세·월세", rows: FEE_TABLE.lease },
+                ].map((tbl) => (
+                  <table key={tbl.label} className="w-full text-sm">
+                    <caption className="mb-2 text-left font-semibold">{tbl.label}</caption>
+                    <thead>
+                      <tr className="border-b border-black/10 text-left text-foreground/55 dark:border-white/10">
+                        <th className="py-2 font-medium">거래금액</th>
+                        <th className="py-2 font-medium">상한요율</th>
+                        <th className="py-2 font-medium">한도액</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tbl.rows.map((r) => (
+                        <tr key={r.range} className="border-b border-black/5 dark:border-white/5">
+                          <td className="py-2">{r.range}</td>
+                          <td className="py-2 font-semibold">{r.rate}</td>
+                          <td className="py-2">{r.cap}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ))}
+                <p className="text-xs text-foreground/55 md:col-span-2">
+                  월세 거래금액 = 보증금 + (월세 × 100). 단, 이 금액이 5천만 원 미만이면 보증금 + (월세 × 70)으로 계산합니다.
+                  표의 요율은 상한이며 실제 보수는 협의로 정하고, 부가가치세는 별도입니다. 청년지원 동행부동산 할인도 문의하세요.
+                </p>
+              </div>
+            </details>
+          </div>
+          <p className="mt-6 text-xs text-foreground/50">
+            위 내용은 일반적인 안내이며 세율·요건은 법령 개정과 개인 상황에 따라 달라질 수 있습니다. 실제 거래 전에는 사무소 또는 세무 전문가와 꼭 상담하세요.
+          </p>
+        </section>
+
+        <section id="office" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
+          <div className="mx-auto max-w-6xl px-4">
           <SectionTitle eyebrow="OFFICE" title="사무소 둘러보기" />
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {PHOTOS.map((p) => (
@@ -173,13 +248,14 @@ export default function RealEstatePage() {
               ))}
             </div>
           </div>
+          </div>
         </section>
 
-        <section id="contact" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
+        <section id="contact" className="scroll-mt-20 py-16">
           <div className="mx-auto max-w-6xl px-4">
             <SectionTitle eyebrow="CONTACT" title="매물 접수 · 상담 신청" />
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-              <div className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
+              <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
                 <ConsultForm mobile={OFFICE.mobile} />
               </div>
               <div className="flex flex-col gap-6 rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">

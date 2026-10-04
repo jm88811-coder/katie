@@ -9,11 +9,11 @@ export const OFFICE = {
     "오산시 서동 더샵오산엘리포레 아파트 단지 내 상가 101호에 있는 더샵엘리포레 부동산입니다. 입주민의 재산을 소중하게 여기며, 더샵오산엘리포레 아파트의 값어치를 한층 업그레이드하겠습니다.",
   phone: "031-373-0005",
   mobile: "010-7660-3913",
-  address: "경기도 오산시 서동 더샵오산엘리포레 단지 내 상가 101호",
-  addressDetail: "아파트 주차장 입구 코너 101호",
+  address: "경기 오산시 여들동로 26 상가코너 101호",
+  addressDetail: "오산시 서동 더샵오산엘리포레 단지 내 상가, 아파트 주차장 입구 코너",
   parking: "더샵엘리포레 아파트 상가 주차장 무료 이용 (101호 상가 바로 앞 주차 가능)",
   visitNote: "오시기 전 전화 주시면 예약해 드립니다.",
-  mapUrl: "https://naver.me/Ge4hap2V",
+  mapUrl: "https://naver.me/GM3jYKLC",
   blogUrl: "https://blog.naver.com/hwang8924",
 };
 

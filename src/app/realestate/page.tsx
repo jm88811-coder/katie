@@ -1,19 +1,29 @@
-import { LISTINGS, OFFICE, PROCESS, REVIEWS, SERVICES } from "@/lib/data/realestate";
-import ListingBoard from "@/components/realestate/ListingBoard";
+import Image from "next/image";
+import {
+  AMENITIES,
+  BADGES,
+  COMPLEXES,
+  DEAL_TYPES,
+  HIGHLIGHTS,
+  KEYWORDS,
+  OFFICE,
+  PHOTOS,
+  PROPERTY_TYPES,
+  SERVICES,
+} from "@/lib/data/realestate";
 import ConsultForm from "@/components/realestate/ConsultForm";
 
 const NAV = [
-  { href: "#listings", label: "추천 매물" },
-  { href: "#services", label: "중개 서비스" },
-  { href: "#process", label: "진행 절차" },
-  { href: "#reviews", label: "고객 후기" },
+  { href: "#complexes", label: "취급 단지" },
+  { href: "#services", label: "중개·상담" },
+  { href: "#office", label: "사무소" },
   { href: "#contact", label: "상담·오시는 길" },
 ];
 
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-8">
-      <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">{eyebrow}</p>
+      <p className="text-sm font-semibold text-red-600 dark:text-red-400">{eyebrow}</p>
       <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">{title}</h2>
     </div>
   );
@@ -24,8 +34,9 @@ export default function RealEstatePage() {
     <div className="flex flex-1 flex-col">
       <header className="sticky top-0 z-20 border-b border-black/10 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-black/80">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <a href="#top" className="text-lg font-bold tracking-tight">
-            {OFFICE.name}
+          <a href="#top" className="flex items-center gap-2 text-lg font-bold tracking-tight">
+            <span className="rounded bg-red-600 px-1.5 py-0.5 text-xs leading-tight text-white">더샵</span>
+            엘리포레 부동산
           </a>
           <nav className="hidden gap-1 text-sm md:flex">
             {NAV.map((n) => (
@@ -34,7 +45,7 @@ export default function RealEstatePage() {
               </a>
             ))}
           </nav>
-          <a href={`tel:${OFFICE.phone}`} className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+          <a href={`tel:${OFFICE.phone}`} className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
             {OFFICE.phone}
           </a>
         </div>
@@ -42,49 +53,88 @@ export default function RealEstatePage() {
 
       <main id="top" className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-b from-blue-50 to-background dark:from-blue-950/40">
-          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:py-24 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+        <section className="bg-gradient-to-b from-red-50 to-background dark:from-red-950/30">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr] lg:items-center">
             <div>
-              <p className="mb-3 inline-block rounded-full bg-blue-600/10 px-3 py-1 text-sm font-medium text-blue-700 dark:text-blue-300">
-                {OFFICE.representative}
+              <p className="mb-3 inline-block rounded-full bg-yellow-300 px-3 py-1 text-sm font-semibold text-black">
+                오산 서동 · 더샵오산엘리포레 단지 내 상가 101호
               </p>
-              <h1 className="text-balance text-4xl font-bold leading-tight tracking-tight sm:text-5xl">{OFFICE.tagline}</h1>
-              <p className="mt-5 max-w-xl text-lg text-foreground/70">
-                아파트·빌라·오피스텔·상가까지, 지역 시세를 가장 잘 아는 공인중개사가 안전한 계약을 약속드립니다.
-              </p>
+              <h1 className="text-balance break-keep text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+                {OFFICE.tagline},
+                <br />
+                <span className="text-red-600 dark:text-red-400">{OFFICE.name}</span>
+              </h1>
+              <p className="mt-5 max-w-xl break-keep text-lg text-foreground/70">{OFFICE.intro}</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#listings" className="rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background hover:opacity-90">
-                  추천 매물 보기
+                <a href={`tel:${OFFICE.phone}`} className="rounded-full bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700">
+                  ☎ {OFFICE.phone}
                 </a>
-                <a href="#contact" className="rounded-full border border-black/15 px-6 py-3 text-sm font-semibold hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
-                  무료 상담 신청
+                <a href={`tel:${OFFICE.mobile}`} className="rounded-full border border-black/15 px-6 py-3 text-sm font-semibold hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10">
+                  휴대폰 {OFFICE.mobile}
                 </a>
               </div>
             </div>
-            <dl className="grid grid-cols-2 gap-4">
-              {[
-                { k: "지역 중개 경력", v: "10년+" },
-                { k: "누적 계약", v: "1,200건" },
-                { k: "보유 매물", v: `${LISTINGS.length}건+` },
-                { k: "고객 재방문율", v: "92%" },
-              ].map((s) => (
-                <div key={s.k} className="rounded-2xl border border-black/10 bg-background p-5 dark:border-white/10">
-                  <dt className="text-sm text-foreground/60">{s.k}</dt>
-                  <dd className="mt-1 text-2xl font-bold">{s.v}</dd>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-lg">
+              <Image src={PHOTOS[0].src} alt={PHOTOS[0].alt} fill priority sizes="(min-width: 1024px) 480px, 100vw" className="object-cover" />
+            </div>
+          </div>
+          <div className="mx-auto max-w-6xl px-4 pb-14">
+            <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {HIGHLIGHTS.map((s) => (
+                <div key={s.k} className="rounded-2xl border border-black/10 bg-background p-4 dark:border-white/10">
+                  <dt className="text-xs text-foreground/55">{s.k}</dt>
+                  <dd className="mt-1 font-bold">{s.v}</dd>
                 </div>
               ))}
             </dl>
           </div>
         </section>
 
-        <section id="listings" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
-          <SectionTitle eyebrow="LISTINGS" title="이번 주 추천 매물" />
-          <ListingBoard listings={LISTINGS} phone={OFFICE.phone} />
+        <section id="complexes" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
+          <SectionTitle eyebrow="COMPLEXES" title="주요 취급 단지" />
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {COMPLEXES.map((c, i) => (
+              <li
+                key={c.name}
+                className={`rounded-2xl border p-5 ${
+                  i === 0 ? "border-red-600 bg-red-600 text-white" : "border-black/10 dark:border-white/10"
+                }`}
+              >
+                <h3 className="text-lg font-bold">{c.name}</h3>
+                <p className={`mt-1 text-sm ${i === 0 ? "text-white/85" : "text-foreground/60"}`}>{c.note}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl bg-black/[0.03] p-5 dark:bg-white/[0.04]">
+              <p className="mb-3 text-sm font-semibold text-foreground/60">취급 매물</p>
+              <div className="flex flex-wrap gap-2">
+                {PROPERTY_TYPES.map((t) => (
+                  <span key={t} className="rounded-full bg-background px-4 py-1.5 text-sm font-medium shadow-sm">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl bg-black/[0.03] p-5 dark:bg-white/[0.04]">
+              <p className="mb-3 text-sm font-semibold text-foreground/60">거래 유형</p>
+              <div className="flex flex-wrap gap-2">
+                {DEAL_TYPES.map((t) => (
+                  <span key={t} className="rounded-full bg-yellow-300 px-4 py-1.5 text-sm font-semibold text-black">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <p className="mt-6 text-sm text-foreground/60">
+            찾으시는 매물이 있으면 언제든 전화 주세요. 신속하게 처리해 드립니다.
+          </p>
         </section>
 
         <section id="services" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
           <div className="mx-auto max-w-6xl px-4">
-            <SectionTitle eyebrow="SERVICES" title="이런 일을 도와드립니다" />
+            <SectionTitle eyebrow="SERVICES" title="중개부터 대출·세금 상담까지" />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {SERVICES.map((s) => (
                 <div key={s.title} className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
@@ -93,89 +143,89 @@ export default function RealEstatePage() {
                 </div>
               ))}
             </div>
+            <ul className="mt-8 grid gap-3 md:grid-cols-3">
+              {BADGES.map((b) => (
+                <li key={b} className="flex items-start gap-2 rounded-xl bg-background p-4 text-sm font-medium dark:bg-white/[0.04]">
+                  <span className="text-red-600 dark:text-red-400">※</span>
+                  {b}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
-        <section id="process" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
-          <SectionTitle eyebrow="PROCESS" title="계약까지 이렇게 진행됩니다" />
-          <ol className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {PROCESS.map((p) => (
-              <li key={p.step} className="border-t-2 border-blue-600 pt-4">
-                <span className="text-sm font-bold text-blue-600 dark:text-blue-400">STEP {p.step}</span>
-                <h3 className="mt-1 text-lg font-semibold">{p.title}</h3>
-                <p className="mt-1 text-sm text-foreground/65">{p.body}</p>
-              </li>
+        <section id="office" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
+          <SectionTitle eyebrow="OFFICE" title="사무소 둘러보기" />
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {PHOTOS.map((p) => (
+              <div key={p.src} className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <Image src={p.src} alt={p.alt} fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover" />
+              </div>
             ))}
-          </ol>
-        </section>
-
-        <section id="reviews" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
-          <div className="mx-auto max-w-6xl px-4">
-            <SectionTitle eyebrow="REVIEWS" title="고객님들의 이야기" />
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-              {REVIEWS.map((r) => (
-                <figure key={r.name} className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
-                  <blockquote className="leading-relaxed text-foreground/80">“{r.body}”</blockquote>
-                  <figcaption className="mt-4 text-sm text-foreground/55">
-                    {r.name} · {r.tag}
-                  </figcaption>
-                </figure>
+          </div>
+          <div className="mt-8">
+            <p className="mb-3 text-sm font-semibold text-foreground/60">편의시설 및 서비스</p>
+            <div className="flex flex-wrap gap-2">
+              {AMENITIES.map((a) => (
+                <span key={a} className="rounded-full border border-black/10 px-3 py-1 text-sm dark:border-white/15">
+                  {a}
+                </span>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="contact" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
-          <SectionTitle eyebrow="CONTACT" title="상담 신청 · 오시는 길" />
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
-              <ConsultForm mobile={OFFICE.mobile} />
-            </div>
-            <div className="flex flex-col gap-6 rounded-2xl border border-black/10 p-6 dark:border-white/10">
-              <dl className="grid grid-cols-[5rem_1fr] gap-y-3 text-sm">
-                <dt className="text-foreground/55">주소</dt>
-                <dd>{OFFICE.address}</dd>
-                <dt className="text-foreground/55">대표전화</dt>
-                <dd>
-                  <a href={`tel:${OFFICE.phone}`} className="font-semibold hover:underline">{OFFICE.phone}</a>
-                </dd>
-                <dt className="text-foreground/55">휴대폰</dt>
-                <dd>
-                  <a href={`tel:${OFFICE.mobile}`} className="font-semibold hover:underline">{OFFICE.mobile}</a>
-                </dd>
-                <dt className="text-foreground/55">이메일</dt>
-                <dd>
-                  <a href={`mailto:${OFFICE.email}`} className="hover:underline">{OFFICE.email}</a>
-                </dd>
-                <dt className="text-foreground/55">영업시간</dt>
-                <dd className="flex flex-col gap-1">
-                  {OFFICE.hours.map((h) => (
-                    <span key={h.day}>
-                      <span className="inline-block w-20 text-foreground/70">{h.day}</span>
-                      {h.time}
-                    </span>
-                  ))}
-                </dd>
-              </dl>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={OFFICE.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full bg-[#03C75A] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-                >
-                  네이버 지도에서 보기
-                </a>
-                {OFFICE.kakaoUrl && (
+        <section id="contact" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle eyebrow="CONTACT" title="매물 접수 · 상담 신청" />
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
+                <ConsultForm mobile={OFFICE.mobile} />
+              </div>
+              <div className="flex flex-col gap-6 rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
+                <dl className="grid grid-cols-[5rem_1fr] gap-y-3 text-sm">
+                  <dt className="text-foreground/55">주소</dt>
+                  <dd>
+                    {OFFICE.address}
+                    <br />
+                    <span className="text-foreground/60">{OFFICE.addressDetail}</span>
+                  </dd>
+                  <dt className="text-foreground/55">전화</dt>
+                  <dd>
+                    <a href={`tel:${OFFICE.phone}`} className="font-semibold hover:underline">{OFFICE.phone}</a>
+                  </dd>
+                  <dt className="text-foreground/55">휴대폰</dt>
+                  <dd>
+                    <a href={`tel:${OFFICE.mobile}`} className="font-semibold hover:underline">{OFFICE.mobile}</a>
+                  </dd>
+                  <dt className="text-foreground/55">주차</dt>
+                  <dd>{OFFICE.parking}</dd>
+                  <dt className="text-foreground/55">방문</dt>
+                  <dd>{OFFICE.visitNote}</dd>
+                </dl>
+                <div className="flex flex-wrap gap-3">
                   <a
-                    href={OFFICE.kakaoUrl}
+                    href={OFFICE.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-[#FEE500] px-5 py-2.5 text-sm font-semibold text-black hover:opacity-90"
+                    className="rounded-full bg-[#03C75A] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
                   >
-                    카카오톡 상담
+                    네이버 지도·리뷰 보기
                   </a>
-                )}
+                  <a
+                    href={OFFICE.blogUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-black/15 px-5 py-2.5 text-sm font-semibold hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10"
+                  >
+                    블로그 소식 보기
+                  </a>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {KEYWORDS.map((k) => (
+                    <span key={k} className="text-xs text-foreground/50">#{k}</span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -183,21 +233,18 @@ export default function RealEstatePage() {
       </main>
 
       <footer className="border-t border-black/10 py-8 text-center text-xs leading-relaxed text-foreground/50 dark:border-white/10">
+        <p>{OFFICE.fullName}</p>
         <p>
-          {OFFICE.name} · {OFFICE.representative} · {OFFICE.registrationNo}
+          {OFFICE.address} · TEL {OFFICE.phone} · Mobile {OFFICE.mobile}
         </p>
-        <p>
-          {OFFICE.address} · {OFFICE.phone}
-        </p>
-        <p className="mt-2">게시된 매물 정보는 변동될 수 있으며, 정확한 내용은 방문·전화 상담으로 확인해 주세요.</p>
       </footer>
 
       {/* 모바일 하단 고정 전화 버튼 */}
       <a
         href={`tel:${OFFICE.phone}`}
-        className="fixed bottom-4 right-4 z-30 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg md:hidden"
+        className="fixed bottom-4 right-4 z-30 rounded-full bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-lg md:hidden"
       >
-        전화 상담
+        ☎ 전화 상담
       </a>
     </div>
   );

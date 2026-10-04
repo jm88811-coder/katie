@@ -2,10 +2,20 @@
 
 import { useState } from "react";
 
-const PURPOSES = ["매매(구입)", "매매(매도)", "전세", "월세", "상가·사무실", "매물 내놓기"];
+const PURPOSES = [
+  "매매(구입)",
+  "매매(매도)",
+  "전세",
+  "월세",
+  "분양권",
+  "상가·토지·주택·공장",
+  "매물 내놓기",
+  "대출 상담",
+  "양도세 상담",
+];
 
 const field =
-  "w-full rounded-lg border border-black/15 bg-background px-3 py-2 text-sm outline-none focus:border-blue-500 dark:border-white/15";
+  "w-full rounded-lg border border-black/15 bg-background px-3 py-2 text-sm outline-none focus:border-red-500 dark:border-white/15";
 
 // 서버 없이 동작하도록, 입력한 내용으로 사무소에 보낼 문자(SMS) 링크를 만듭니다.
 export default function ConsultForm({ mobile }: { mobile: string }) {
@@ -79,7 +89,7 @@ export default function ConsultForm({ mobile }: { mobile: string }) {
       <button
         type="submit"
         disabled={!ready}
-        className="mt-1 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-40"
+        className="mt-1 rounded-full bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-40"
       >
         문자로 상담 요청 보내기
       </button>

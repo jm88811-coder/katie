@@ -35,7 +35,17 @@ export const COMPLEXES = [
   { name: "오산세교우미린레이크", note: "분양권" },
 ];
 
-export const PROPERTY_TYPES = ["아파트", "분양권", "상가", "토지", "주택", "공장"];
+export const PROPERTY_TYPES = ["아파트", "분양권", "상가", "토지", "주택", "공장"] as const;
+export type PropertyType = (typeof PROPERTY_TYPES)[number];
+
+export const CATEGORIES: { type: PropertyType; desc: string }[] = [
+  { type: "아파트", desc: "더샵오산엘리포레 등 서동·세교 단지 매매·전세·월세" },
+  { type: "분양권", desc: "오산세교우미린레이크 등 분양권 매매·전매 상담" },
+  { type: "상가", desc: "단지 내 상가·근린상가 임대와 매매" },
+  { type: "토지", desc: "토지이용계획·허가구역 확인부터 매매까지" },
+  { type: "주택", desc: "단독·다가구·빌라 매매와 임대" },
+  { type: "공장", desc: "공장·창고 매매와 임대" },
+];
 export const DEAL_TYPES = ["매매", "전세", "월세"];
 
 export const SERVICES = [
@@ -55,12 +65,6 @@ export const SERVICES = [
     title: "양도세 상담",
     body: "매도 전 양도소득세를 미리 확인해 손해 없는 거래를 돕습니다.",
   },
-];
-
-export const BADGES = [
-  "오랜 경력 중개사의 노하우와 전문적인 상담",
-  "청년지원 동행부동산 가입회원 — 중개수수료 할인",
-  "매물 접수 및 전화 문의 언제든 환영",
 ];
 
 export const AMENITIES = [
@@ -86,3 +90,53 @@ export const PHOTOS = [
   { src: "/realestate/interior-1.jpg", alt: "사무소 내부 상담 공간과 단지 배치도" },
   { src: "/realestate/interior-2.jpg", alt: "사무소 내부 상담 테이블" },
 ];
+
+// 대표 매물. 공인중개사법상 인터넷 광고 시 아래 항목을 모두 표시해야 합니다.
+// 실제 매물만 넣으세요. 비어 있으면 페이지에는 단지별 '매물 문의' 카드가 대신 표시됩니다.
+export interface Listing {
+  id: string;
+  title: string;
+  complex: string; // 단지명
+  type: PropertyType; // 중개대상물 종류
+  deal: "매매" | "전세" | "월세"; // 거래 형태
+  price: string; // 가격 (월세는 "보증금 / 월세")
+  address: string; // 소재지 (동·호수는 생략 가능)
+  area: string; // 면적 (전용)
+  floor: string; // 해당 층 / 총 층수
+  approvalDate: string; // 사용승인일
+  direction: string; // 방향
+  rooms: string; // 방 / 욕실 개수
+  moveIn: string; // 입주가능일
+  parking: string; // 주차대수
+  maintenanceFee: string; // 관리비
+  photo?: string; // /public 아래 경로
+  features?: string[];
+}
+
+export const LISTINGS: Listing[] = [];
+
+// 고객 후기. 실제 고객 동의를 받은 후기만 넣으세요. 비어 있으면 네이버 리뷰 링크가 표시됩니다.
+export const REVIEWS: { name: string; tag: string; body: string; date: string }[] = [];
+
+export const AGENT = {
+  // 대표 공인중개사 사진을 /public/realestate/agent.jpg 로 넣고 경로를 적으면 표시됩니다.
+  photo: "",
+  greeting:
+    "언제든 전화 주시면 찾으시는 매물을 신속하게 처리해 드립니다. 입주민의 재산을 소중하게 여기는 동네 부동산이 되겠습니다.",
+  strengths: [
+    { title: "오랜 경력의 노하우", body: "지역 시세와 단지 사정을 잘 아는 중개사가 직접 상담합니다." },
+    { title: "청년 중개수수료 할인", body: "청년지원 동행부동산 가입회원으로 중개수수료를 할인해 드립니다." },
+    { title: "대출·세금까지 한 번에", body: "전세자금대출·아파트담보대출·양도세 상담을 함께 도와드립니다." },
+  ],
+};
+
+export const REGION = {
+  title: "오산 서동 · 세교 생활권",
+  intro:
+    "더샵오산엘리포레는 오산시 서동 여들동로에 있는 단지입니다. 세교 신도시와 맞닿은 생활권으로, 서동·세교 일대 아파트와 분양권 거래를 주로 중개합니다.",
+  points: [
+    { k: "규제", v: "비규제지역", note: "조정대상지역·투기과열지구 미지정 (2026년 10월 기준)" },
+    { k: "대출", v: "수도권 주담대 최대 6억", note: "2025년 6월 28일 시행" },
+    { k: "토지거래허가구역", v: "가수동·궐동·갈곶동 일원", note: "필지별 해당 여부는 토지이음에서 확인" },
+  ],
+};

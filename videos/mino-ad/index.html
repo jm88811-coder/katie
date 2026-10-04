@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>MINO test 08</title>
+    <link rel="stylesheet" href="assets/mino.css" />
+    <script src="vendor/gsap.min.js"></script>
+    <script src="assets/mino.js"></script>
+    <style>
+      #main {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="4" data-fps="60">
+      <div id="chrome-bg"><div class="glow" data-layout-allow-overflow></div><div class="grid"></div></div>
+      <div
+        id="s08"
+        data-composition-id="s08-phone"
+        data-composition-src="compositions/s08-phone.html"
+        data-start="0"
+        data-duration="4"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div id="chrome-hud">
+        <div class="tl"><div class="tc">MINO · 00:00:00</div><div class="s1"></div><div class="s2"></div></div>
+        <div class="br"></div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const root = document.getElementById("main");
+      MinoKit.chrome(tl, root, {
+        offset: 21.5,
+        duration: 4,
+        scene: 8,
+        status: ["STATUS · REVISING BY CHAT", "RENDER · 60FPS"],
+        glow: [[0.08, 0.9], [0.25, 0.75]],
+      });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

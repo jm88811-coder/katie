@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>08 Phone + chat</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+        @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Medium.woff2") format("woff2"); font-weight: 500; }
+
+        #s08-phone {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #f4f4f0;
+        }
+        #s08-halo {
+          position: absolute;
+          left: 760px;
+          top: 540px;
+          width: 980px;
+          height: 864px;
+          margin: -432px 0 0 -490px;
+          border-radius: 50%;
+          background: radial-gradient(ellipse at center, rgba(200, 255, 0, 0.7) 0%, rgba(170, 230, 0, 0.3) 36%, rgba(120, 180, 0, 0) 70%);
+        }
+        #s08-rig {
+          position: absolute;
+          left: 560px;
+          top: 118px;
+          width: 400px;
+          height: 830px;
+        }
+        #s08-body {
+          position: absolute;
+          inset: 0;
+          border-radius: 66px;
+          border: 1px solid rgba(255, 255, 255, 0.28);
+          background: linear-gradient(140deg, #4a4d53 0%, #1b1d21 22%, #121316 55%, #2c2f34 82%, #4a4d53 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.45),
+            inset 0 0 0 3px #0c0d0f,
+            0 50px 80px -10px rgba(0, 0, 0, 0.75);
+          -webkit-box-reflect: below 26px linear-gradient(to bottom, transparent 0%, transparent 72%, rgba(255, 255, 255, 0.16) 100%);
+        }
+        .s08-btn {
+          position: absolute;
+          width: 4px;
+          border-radius: 2px;
+          background: linear-gradient(90deg, #5a5d63, #24262a);
+        }
+        #s08-screen {
+          position: absolute;
+          inset: 12px;
+          border-radius: 54px;
+          background: #050505;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+        }
+        #s08-island {
+          position: absolute;
+          left: 50%;
+          top: 14px;
+          width: 112px;
+          height: 32px;
+          margin-left: -56px;
+          border-radius: 16px;
+          background: #000;
+          z-index: 5;
+        }
+        #s08-lens {
+          position: absolute;
+          right: 12px;
+          top: 9px;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, #4b5d7a 0%, #16202e 45%, #05070a 75%);
+          box-shadow: 0 0 0 2px #121417;
+        }
+        #s08-off {
+          position: absolute;
+          inset: 0;
+          background: #000;
+          z-index: 4;
+        }
+        #s08-flash {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at 50% 30%, rgba(244, 244, 240, 0.7), rgba(200, 255, 0, 0.15) 60%, transparent);
+          opacity: 0;
+          z-index: 4;
+        }
+
+        /* app UI */
+        .s08-row {
+          flex: none;
+        }
+        #s08-status {
+          height: 52px;
+          padding: 18px 30px 0;
+          display: flex;
+          justify-content: space-between;
+          font-size: 15px;
+          font-weight: 800;
+        }
+        #s08-status .ic {
+          display: flex;
+          gap: 5px;
+          align-items: flex-end;
+        }
+        #s08-status .ic i {
+          width: 4px;
+          border-radius: 1px;
+          background: #f4f4f0;
+        }
+        #s08-head {
+          height: 50px;
+          padding: 0 22px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 800;
+          font-size: 19px;
+        }
+        #s08-head svg {
+          width: 22px;
+          height: 22px;
+        }
+        .s08-ai {
+          font-size: 10px;
+          font-weight: 800;
+          color: #0a0a0a;
+          background: #c8ff00;
+          border-radius: 5px;
+          padding: 2px 4px;
+          margin: -12px 0 0 -4px;
+        }
+        #s08-preview {
+          position: relative;
+          margin: 4px 14px 0;
+          height: 330px;
+          border-radius: 22px;
+          overflow: hidden;
+          background:
+            radial-gradient(circle at 80% 20%, rgba(200, 255, 0, 0.35), transparent 45%),
+            linear-gradient(165deg, #1d2b00 0%, #0e0f0c 55%, #161616 100%);
+        }
+        #s08-prev-tag {
+          position: absolute;
+          left: 16px;
+          top: 14px;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          opacity: 0.6;
+        }
+        #s08-prev-title {
+          position: absolute;
+          left: 16px;
+          right: 16px;
+          top: 40px;
+          font-weight: 800;
+          font-size: 30px;
+          line-height: 1.15;
+        }
+        #s08-prev-title em {
+          font-style: normal;
+          color: #c8ff00;
+        }
+        #s08-caption {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 78px;
+          text-align: center;
+        }
+        #s08-caption span {
+          display: inline-block;
+          padding: 5px 10px;
+          border-radius: 8px;
+          background: rgba(0, 0, 0, 0.72);
+          font-size: 15px;
+          transform-origin: 50% 100%;
+        }
+        #s08-wave {
+          position: absolute;
+          left: 16px;
+          right: 16px;
+          bottom: 22px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        #s08-wave i {
+          flex: 1;
+          height: 40%;
+          border-radius: 2px;
+          background: rgba(244, 244, 240, 0.45);
+        }
+        #s08-prog {
+          position: absolute;
+          left: 16px;
+          right: 16px;
+          bottom: 12px;
+          height: 3px;
+          border-radius: 2px;
+          background: rgba(244, 244, 240, 0.15);
+        }
+        #s08-prog i {
+          display: block;
+          height: 100%;
+          width: 100%;
+          border-radius: 2px;
+          background: #c8ff00;
+          transform-origin: 0 50%;
+        }
+        #s08-chathead {
+          height: 40px;
+          padding: 14px 22px 0;
+          font-size: 13px;
+          opacity: 0.55;
+        }
+        #s08-list {
+          position: relative;
+          flex: 1;
+          margin: 0 14px;
+          overflow: hidden;
+        }
+        #s08-stack {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 6px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .s08-m {
+          max-width: 80%;
+          padding: 9px 13px;
+          border-radius: 16px;
+          font-size: 15px;
+          line-height: 1.3;
+        }
+        .s08-m.u {
+          align-self: flex-end;
+          background: #2a2a2a;
+          border-bottom-right-radius: 5px;
+        }
+        .s08-m.b {
+          align-self: flex-start;
+          background: #c8ff00;
+          color: #0a0a0a;
+          border-bottom-left-radius: 5px;
+        }
+        #s08-input {
+          height: 82px;
+          padding: 10px 14px 26px;
+        }
+        #s08-input div {
+          height: 46px;
+          border-radius: 23px;
+          background: #1a1a1a;
+          border: 1px solid rgba(244, 244, 240, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 6px 0 18px;
+          font-size: 14px;
+          color: rgba(244, 244, 240, 0.4);
+        }
+        #s08-input b {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background: #c8ff00;
+          box-shadow: 0 0 12px rgba(200, 255, 0, 0.7);
+        }
+
+        /* outside bubbles */
+        #s08-chat {
+          position: absolute;
+          left: 1060px;
+          top: 300px;
+          width: 620px;
+          display: flex;
+          flex-direction: column;
+          gap: 26px;
+        }
+        .s08-bub {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          transform-origin: 0 50%;
+        }
+        .s08-bub.b {
+          margin-left: 70px;
+        }
+        .s08-who {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 14px;
+          letter-spacing: 0.1em;
+          opacity: 0.5;
+        }
+        .s08-txt {
+          align-self: flex-start;
+          min-height: 76px;
+          padding: 18px 28px;
+          border-radius: 26px;
+          font-size: 36px;
+          line-height: 40px;
+          white-space: nowrap;
+        }
+        .s08-bub.u .s08-txt {
+          background: #262626;
+          border: 1px solid rgba(244, 244, 240, 0.1);
+          border-top-left-radius: 8px;
+        }
+        .s08-bub.b .s08-txt {
+          background: #c8ff00;
+          color: #0a0a0a;
+          border-top-left-radius: 8px;
+          box-shadow: 0 0 24px rgba(200, 255, 0, 0.55), 0 0 60px rgba(200, 255, 0, 0.25);
+        }
+      </style>
+
+      <div id="s08-phone" data-composition-id="s08-phone" data-width="1920" data-height="1080" data-duration="4">
+        <div id="s08-halo" data-layout-allow-overflow></div>
+        <div id="s08-rig">
+          <div id="s08-body">
+            <i class="s08-btn" style="left:-4px;top:170px;height:34px"></i>
+            <i class="s08-btn" style="left:-4px;top:230px;height:64px"></i>
+            <i class="s08-btn" style="left:-4px;top:306px;height:64px"></i>
+            <i class="s08-btn" style="right:-4px;top:250px;height:100px"></i>
+            <div id="s08-screen">
+              <div id="s08-island"><i id="s08-lens"></i></div>
+              <div id="s08-status" class="s08-row"><span>9:41</span><span class="ic"><i style="height:6px"></i><i style="height:9px"></i><i style="height:12px"></i><i style="height:15px"></i></span></div>
+              <div id="s08-head" class="s08-row"><span id="s08-sym"></span>MINO<span class="s08-ai">AI</span></div>
+              <div id="s08-preview" class="s08-row">
+                <div id="s08-prev-tag">REELS · 0:24</div>
+                <div id="s08-prev-title"><div>직장인을 위한</div><div><em>클로드</em> 활용법</div></div>
+                <div id="s08-caption"><span>보고서 초안, 10분이면 끝</span></div>
+                <div id="s08-wave"></div>
+                <div id="s08-prog"><i></i></div>
+              </div>
+              <div id="s08-chathead" class="s08-row">대화 · 직장인 클로드 활용법</div>
+              <div id="s08-list" class="s08-row">
+                <div id="s08-stack">
+                  <div class="s08-m u">직장인을 위한 클로드 활용법 릴스</div>
+                  <div class="s08-m b">대본·자막·음악 완성했어요 ✓</div>
+                  <div class="s08-m u n">자막 더 크게</div>
+                  <div class="s08-m b n">수정했어요 ✓</div>
+                  <div class="s08-m u n">음악 밝게</div>
+                  <div class="s08-m b n">완료 ✓</div>
+                </div>
+              </div>
+              <div id="s08-input" class="s08-row"><div>메시지 입력<b></b></div></div>
+              <div id="s08-off"></div>
+              <div id="s08-flash"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="s08-chat">
+          <div class="s08-bub u"><span class="s08-who">YOU</span><span class="s08-txt"></span></div>
+          <div class="s08-bub b"><span class="s08-who">MINO</span><span class="s08-txt"></span></div>
+          <div class="s08-bub u"><span class="s08-who">YOU</span><span class="s08-txt"></span></div>
+          <div class="s08-bub b"><span class="s08-who">MINO</span><span class="s08-txt"></span></div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const K = window.MinoKit;
+          const scope = "#s08-phone ";
+          const q = (s) => document.querySelector(scope + s);
+          const qa = (s) => Array.from(document.querySelectorAll(scope + s));
+          q("#s08-sym").innerHTML = K.symbolSVG();
+
+          // Waveform bars: pattern A (calm) blends into pattern B (bright) after "음악 밝게".
+          const N = 30;
+          const wave = q("#s08-wave");
+          for (let i = 0; i < N; i++) wave.appendChild(document.createElement("i"));
+          const bars = Array.from(wave.children);
+          const A = bars.map((_, i) => 0.25 + 0.2 * Math.abs(Math.sin(i * 1.7)));
+          const B = bars.map((_, i) => 0.45 + 0.5 * Math.abs(Math.sin(i * 0.9 + 1)));
+
+          const tl = gsap.timeline({ paused: true });
+          const msgs = ["자막 더 크게", "수정했어요 ✓", "음악 밝게", "완료 ✓"];
+          const bubbles = qa(".s08-bub");
+          const newMsgs = qa(".s08-m.n");
+          const stack = q("#s08-stack");
+
+          // Phone rises at an 8° yaw and slowly settles to face front.
+          tl.fromTo("#s08-rig", { y: 620 }, { y: 0, duration: 0.6, ease: "power3.out" }, 0);
+          tl.fromTo("#s08-body", { transformPerspective: 1800, rotationY: 8, rotationX: 4 }, { rotationY: 0, rotationX: 0, duration: 3.6, ease: "sine.inOut" }, 0.1);
+          tl.fromTo("#s08-halo", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, 0.1);
+          tl.to("#s08-halo", { opacity: 0.7, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0.7);
+
+          // Screen wakes, then the app UI draws in top -> bottom, one row at a time.
+          tl.to("#s08-off", { opacity: 0, duration: 0.12, ease: "none" }, 0.55);
+          tl.fromTo("#s08-flash", { opacity: 0 }, { opacity: 1, duration: 0.06, yoyo: true, repeat: 1, ease: "none" }, 0.55);
+          tl.fromTo(".s08-row", { clipPath: "inset(0% 0% 100% 0%)", opacity: 0 }, { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, duration: 0.18, ease: "power2.out", stagger: 0.08 }, 0.65);
+          tl.fromTo("#s08-prog i", { scaleX: 0.08 }, { scaleX: 0.72, duration: 3.2, ease: "none" }, 0.8);
+
+          // Constant motion inside the preview: the waveform keeps dancing.
+          const w = { t: 0, mix: 0 };
+          const paintWave = () => {
+            for (let i = 0; i < N; i++) {
+              const base = A[i] + (B[i] - A[i]) * w.mix;
+              const h = base * (0.55 + 0.45 * Math.abs(Math.sin(w.t * 7 + i * 0.65)));
+              bars[i].style.height = (h * 100).toFixed(1) + "%";
+              bars[i].style.background = w.mix > 0.5 ? "#C8FF00" : "rgba(244,244,240,0.45)";
+              bars[i].style.boxShadow = w.mix > 0.5 ? "0 0 8px rgba(200,255,0,0.8)" : "none";
+            }
+          };
+          paintWave();
+          tl.to(w, { t: 4, duration: 4, ease: "none", onUpdate: paintWave }, 0);
+
+          const build = () => {
+            // Phone chat list: new messages enter from the bottom and push older ones up.
+            const gap = 8;
+            const hs = newMsgs.map((m) => m.offsetHeight + gap);
+            const rest = (k) => hs.slice(k).reduce((a, b) => a + b, 0);
+            gsap.set(stack, { y: rest(0) });
+            gsap.set(newMsgs, { opacity: 0 });
+
+            const beats = [1.3, 1.85, 2.45, 3.0];
+            beats.forEach((at, k) => {
+              const bub = bubbles[k];
+              tl.fromTo(bub, { opacity: 0, scale: 0.7, y: 24 }, { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(2.2)" }, at);
+              K.type(tl, bub.querySelector(".s08-txt"), msgs[k], at + 0.05, 20);
+              tl.to(stack, { y: rest(k + 1), duration: 0.3, ease: "power3.out" }, at + 0.18);
+              tl.fromTo(newMsgs[k], { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, at + 0.2);
+            });
+
+            // "수정했어요" -> captions grow. "완료" -> music waveform turns bright.
+            tl.to("#s08-caption span", { scale: 1.5, duration: 0.35, ease: "back.out(2)" }, 2.1);
+            tl.fromTo("#s08-caption span", { boxShadow: "0 0 0 0 rgba(200,255,0,0)" }, { boxShadow: "0 0 0 2px rgba(200,255,0,0.9)", duration: 0.15, yoyo: true, repeat: 1 }, 2.1);
+            tl.to(w, { mix: 1, duration: 0.4, ease: "power2.out", onUpdate: paintWave }, 3.2);
+            tl.set({}, {}, 4);
+            window.__timelines["s08-phone"] = tl;
+          };
+          document.fonts.ready.then(build);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

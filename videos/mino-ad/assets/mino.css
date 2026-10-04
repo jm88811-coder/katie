@@ -1,0 +1,116 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/Pretendard-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/Pretendard-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/Pretendard-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+}
+
+:root {
+  --ink: #0a0a0a;
+  --lime: #c8ff00;
+  --paper: #f4f4f0;
+  --lime-glow: drop-shadow(0 0 10px rgba(200, 255, 0, 0.75)) drop-shadow(0 0 32px rgba(200, 255, 0, 0.45));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--ink);
+  font-family: "Pretendard", sans-serif;
+  color: var(--paper);
+}
+
+/* ---------- shared chrome: background + HUD (host level) ---------- */
+#chrome-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ink);
+}
+#chrome-bg .grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(to right, var(--paper) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--paper) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+#chrome-bg .glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1600px;
+  height: 1600px;
+  margin: -800px 0 0 -800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42, 74, 0, 0.95) 0%, rgba(26, 46, 0, 0.6) 35%, rgba(26, 46, 0, 0) 70%);
+  opacity: 0.22;
+}
+
+#chrome-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--paper);
+  opacity: 0.4;
+  z-index: 50;
+}
+#chrome-hud .tl {
+  position: absolute;
+  left: 56px;
+  top: 44px;
+  line-height: 1.6;
+}
+#chrome-hud .br {
+  position: absolute;
+  right: 56px;
+  bottom: 44px;
+}
+
+/* ---------- odometer counter ---------- */
+.odo {
+  display: inline-flex;
+  height: 1em;
+  line-height: 1em;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.odo-col {
+  display: block;
+  height: 1em;
+  overflow: hidden;
+}
+.odo-strip {
+  display: flex;
+  flex-direction: column;
+}
+.odo-strip > span {
+  display: block;
+  height: 1em;
+  line-height: 1em;
+}

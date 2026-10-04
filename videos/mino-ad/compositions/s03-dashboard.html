@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>03 Dashboard</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+        #s03-dashboard {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #f4f4f0;
+        }
+        #s03-stage {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #s03-float {
+          position: relative;
+          width: 1400px;
+          height: 800px;
+        }
+        #s03-glow {
+          position: absolute;
+          inset: 40px;
+          border-radius: 40px;
+          background: #c8ff00;
+          filter: blur(70px);
+          opacity: 0.3;
+        }
+        #s03-panel {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          border-radius: 28px;
+          border: 1px solid transparent;
+          background:
+            linear-gradient(180deg, #161616 0%, #0e0e0e 100%) padding-box,
+            linear-gradient(180deg, rgba(244, 244, 240, 0.42) 0%, rgba(244, 244, 240, 0.08) 30%, rgba(244, 244, 240, 0.04) 100%) border-box;
+          box-shadow:
+            0 60px 90px -20px rgba(0, 0, 0, 0.85),
+            0 120px 160px -40px rgba(0, 0, 0, 0.6);
+          overflow: hidden;
+        }
+
+        /* sidebar */
+        #s03-side {
+          width: 270px;
+          padding: 30px 22px;
+          border-right: 1px solid rgba(244, 244, 240, 0.07);
+          background: rgba(244, 244, 240, 0.02);
+        }
+        #s03-brand {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 800;
+          font-size: 22px;
+          letter-spacing: 0.02em;
+          margin-bottom: 30px;
+        }
+        #s03-brand svg {
+          width: 28px;
+          height: 28px;
+        }
+        .s03-sidehead {
+          font-size: 13px;
+          letter-spacing: 0.12em;
+          opacity: 0.45;
+          margin: 0 0 12px 8px;
+        }
+        .s03-proj {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          height: 46px;
+          padding: 0 12px;
+          border-radius: 12px;
+          font-size: 16px;
+          white-space: nowrap;
+        }
+        .s03-proj.on {
+          background: rgba(200, 255, 0, 0.1);
+          color: #c8ff00;
+        }
+        .s03-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 3px;
+          flex: none;
+        }
+
+        /* main */
+        #s03-main {
+          flex: 1;
+          padding: 30px 34px;
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+        }
+        #s03-cards {
+          display: flex;
+          gap: 20px;
+          height: 132px;
+        }
+        .s03-card {
+          flex: 1;
+          border-radius: 18px;
+          padding: 22px 26px;
+          background: rgba(244, 244, 240, 0.04);
+          border: 1px solid rgba(244, 244, 240, 0.08);
+        }
+        .s03-card .lbl {
+          font-size: 15px;
+          opacity: 0.6;
+        }
+        .s03-card .val {
+          margin-top: 12px;
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          font-weight: 800;
+          font-size: 56px;
+          line-height: 1;
+        }
+        .s03-card .val .unit {
+          font-size: 22px;
+          font-weight: 400;
+          opacity: 0.7;
+        }
+        .s03-card.lime .num {
+          color: #c8ff00;
+          filter: drop-shadow(0 0 10px rgba(200, 255, 0, 0.7)) drop-shadow(0 0 28px rgba(200, 255, 0, 0.35));
+        }
+
+        #s03-charts {
+          display: flex;
+          gap: 20px;
+          height: 262px;
+        }
+        .s03-box {
+          position: relative;
+          border-radius: 18px;
+          padding: 20px 24px;
+          background: rgba(244, 244, 240, 0.03);
+          border: 1px solid rgba(244, 244, 240, 0.07);
+        }
+        .s03-box .lbl {
+          font-size: 15px;
+          opacity: 0.6;
+        }
+        #s03-line {
+          flex: 1.7;
+        }
+        #s03-line svg {
+          position: absolute;
+          left: 24px;
+          right: 24px;
+          bottom: 22px;
+          width: calc(100% - 48px);
+          height: 190px;
+          overflow: visible;
+        }
+        #s03-path {
+          fill: none;
+          stroke: #c8ff00;
+          stroke-width: 4;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          filter: drop-shadow(0 0 6px rgba(200, 255, 0, 0.9)) drop-shadow(0 0 18px rgba(200, 255, 0, 0.5));
+        }
+        #s03-area {
+          fill: url(#s03-fill);
+        }
+        #s03-endpt {
+          fill: #c8ff00;
+          filter: drop-shadow(0 0 8px rgba(200, 255, 0, 1));
+        }
+        .s03-gridline {
+          stroke: rgba(244, 244, 240, 0.07);
+          stroke-width: 1;
+        }
+        #s03-bars {
+          flex: 1;
+        }
+        #s03-barrow {
+          position: absolute;
+          left: 24px;
+          right: 24px;
+          bottom: 46px;
+          height: 170px;
+          display: flex;
+          align-items: flex-end;
+          gap: 14px;
+        }
+        .s03-bar {
+          flex: 1;
+          border-radius: 8px 8px 3px 3px;
+          background: rgba(244, 244, 240, 0.2);
+          transform-origin: 50% 100%;
+        }
+        .s03-bar.hi {
+          background: linear-gradient(180deg, #e2ff66, #c8ff00);
+          box-shadow: 0 0 18px rgba(200, 255, 0, 0.7), 0 0 40px rgba(200, 255, 0, 0.3);
+        }
+        #s03-days {
+          position: absolute;
+          left: 24px;
+          right: 24px;
+          bottom: 16px;
+          display: flex;
+          gap: 14px;
+          font-size: 13px;
+          opacity: 0.45;
+        }
+        #s03-days span {
+          flex: 1;
+          text-align: center;
+        }
+
+        #s03-table {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          font-size: 16px;
+        }
+        .s03-row {
+          display: grid;
+          grid-template-columns: 2.4fr 1fr 1fr 1fr 1fr;
+          align-items: center;
+          height: 37px;
+          padding: 0 18px;
+          border-radius: 10px;
+          white-space: nowrap;
+        }
+        .s03-row > span:not(:first-of-type) {
+          text-align: right;
+          font-variant-numeric: tabular-nums;
+        }
+        .s03-row.head {
+          font-size: 13px;
+          letter-spacing: 0.06em;
+          opacity: 0.45;
+          height: 28px;
+        }
+        .s03-row.body {
+          background: rgba(244, 244, 240, 0.025);
+        }
+        .s03-hl {
+          position: absolute;
+          inset: 0;
+          border-radius: 10px;
+          background: #c8ff00;
+          box-shadow: 0 0 22px rgba(200, 255, 0, 0.55);
+          transform-origin: 0 50%;
+        }
+        .s03-row.body {
+          position: relative;
+        }
+        .s03-row.body > span {
+          position: relative;
+        }
+      </style>
+
+      <div id="s03-dashboard" data-composition-id="s03-dashboard" data-width="1920" data-height="1080" data-duration="4">
+        <div id="s03-stage">
+          <div id="s03-float">
+            <div id="s03-glow"></div>
+            <div id="s03-panel">
+              <aside id="s03-side">
+                <div id="s03-brand"><span id="s03-sym"></span>MINO</div>
+                <div class="s03-sidehead">PROJECTS</div>
+                <div class="s03-proj on"><i class="s03-dot" style="background:#c8ff00"></i>직장인 클로드 활용법</div>
+                <div class="s03-proj"><i class="s03-dot" style="background:#7aa2ff"></i>신제품 런칭 티저</div>
+                <div class="s03-proj"><i class="s03-dot" style="background:#ff8a65"></i>주간 AI 뉴스 요약</div>
+                <div class="s03-proj"><i class="s03-dot" style="background:#c792ea"></i>브랜드 인터뷰</div>
+                <div class="s03-proj"><i class="s03-dot" style="background:#5fd4c4"></i>5분 레시피 숏폼</div>
+              </aside>
+              <section id="s03-main">
+                <div id="s03-cards">
+                  <div class="s03-card lime">
+                    <div class="lbl">이번 주 제작</div>
+                    <div class="val"><span class="num" id="s03-n1">24</span><span class="unit">편</span></div>
+                  </div>
+                  <div class="s03-card">
+                    <div class="lbl">평균 제작 시간</div>
+                    <div class="val"><span class="num" id="s03-n2">4</span><span class="unit">분</span></div>
+                  </div>
+                  <div class="s03-card">
+                    <div class="lbl">진행 중</div>
+                    <div class="val"><span class="num" id="s03-n3">3</span><span class="unit">편</span></div>
+                  </div>
+                </div>
+                <div id="s03-charts">
+                  <div class="s03-box" id="s03-line">
+                    <div class="lbl">주간 조회수</div>
+                    <svg viewBox="0 0 800 190" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="s03-fill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0" stop-color="#C8FF00" stop-opacity="0.28" />
+                          <stop offset="1" stop-color="#C8FF00" stop-opacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <line class="s03-gridline" x1="0" y1="47" x2="800" y2="47" />
+                      <line class="s03-gridline" x1="0" y1="95" x2="800" y2="95" />
+                      <line class="s03-gridline" x1="0" y1="143" x2="800" y2="143" />
+                      <path id="s03-area" d="M0 160 C60 150 90 128 133 132 S220 100 266 108 S350 70 400 84 S490 58 533 46 S620 66 666 40 S760 12 800 10 L800 190 L0 190 Z" />
+                      <path id="s03-path" d="M0 160 C60 150 90 128 133 132 S220 100 266 108 S350 70 400 84 S490 58 533 46 S620 66 666 40 S760 12 800 10" />
+                      <circle id="s03-endpt" cx="800" cy="10" r="7" />
+                    </svg>
+                  </div>
+                  <div class="s03-box" id="s03-bars">
+                    <div class="lbl">요일별 업로드</div>
+                    <div id="s03-barrow">
+                      <div class="s03-bar" style="height:42%"></div>
+                      <div class="s03-bar" style="height:58%"></div>
+                      <div class="s03-bar" style="height:50%"></div>
+                      <div class="s03-bar" style="height:72%"></div>
+                      <div class="s03-bar hi" style="height:96%"></div>
+                      <div class="s03-bar" style="height:64%"></div>
+                      <div class="s03-bar" style="height:38%"></div>
+                    </div>
+                    <div id="s03-days"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+                  </div>
+                </div>
+                <div id="s03-table">
+                  <div class="s03-row head"><span>프로젝트명</span><span>조회수</span><span>저장</span><span>공유</span><span>완료율</span></div>
+                  <div class="s03-row body hlrow"><i class="s03-hl"></i><span>직장인 클로드 활용법</span><span>128.4K</span><span>9.2K</span><span>3.1K</span><span>87%</span></div>
+                  <div class="s03-row body"><span>신제품 런칭 티저</span><span>96.1K</span><span>6.8K</span><span>2.4K</span><span>81%</span></div>
+                  <div class="s03-row body"><span>주간 AI 뉴스 요약</span><span>74.5K</span><span>5.1K</span><span>1.9K</span><span>76%</span></div>
+                  <div class="s03-row body"><span>브랜드 인터뷰</span><span>52.0K</span><span>3.3K</span><span>1.2K</span><span>72%</span></div>
+                  <div class="s03-row body"><span>5분 레시피 숏폼</span><span>48.7K</span><span>4.0K</span><span>1.6K</span><span>79%</span></div>
+                  <div class="s03-row body"><span>여행 브이로그 컷</span><span>31.2K</span><span>2.2K</span><span>0.8K</span><span>68%</span></div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const K = window.MinoKit;
+          const q = (s) => document.querySelector("#s03-dashboard " + s);
+          const qa = (s) => document.querySelectorAll("#s03-dashboard " + s);
+          q("#s03-sym").innerHTML = K.symbolSVG();
+          const tl = gsap.timeline({ paused: true });
+
+          // Panel: floats up tilted, then sways ±6° and drifts in depth the whole scene.
+          tl.fromTo("#s03-float", { y: 160, opacity: 0, filter: "blur(14px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, 0);
+          tl.fromTo("#s03-panel, #s03-glow", { transformPerspective: 2400, rotationX: 7, rotationY: -6, rotationZ: -1.2, z: -30 }, { rotationY: 6, z: 30, duration: 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+          tl.fromTo("#s03-glow", { opacity: 0.2 }, { opacity: 0.38, duration: 1, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
+
+          // Empty panel first, then contents build in order.
+          tl.fromTo("#s03-brand, .s03-sidehead", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", stagger: 0.05 }, 0.3);
+          tl.fromTo(".s03-proj", { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", stagger: 0.08 }, 0.4);
+
+          tl.fromTo(".s03-card", { opacity: 0, scale: 0.82, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(2)", stagger: 0.1 }, 0.8);
+          K.odometer(tl, q("#s03-n1"), 24, 0.85, 0.9);
+          K.odometer(tl, q("#s03-n2"), 4, 0.95, 0.7);
+          K.odometer(tl, q("#s03-n3"), 3, 1.05, 0.6);
+
+          tl.fromTo(".s03-box", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: 0.08 }, 1.05);
+          const path = q("#s03-path");
+          const len = path.getTotalLength();
+          tl.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 1.2);
+          tl.fromTo("#s03-area", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.65);
+          tl.fromTo("#s03-endpt", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 1.95);
+
+          tl.fromTo(".s03-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 1.65);
+          tl.fromTo("#s03-days", { opacity: 0 }, { opacity: 0.45, duration: 0.3 }, 1.7);
+
+          tl.fromTo(".s03-row", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.22, ease: "power2.out", stagger: 0.1 }, 2.15);
+          tl.fromTo(".s03-hl", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.3, ease: "power3.out" }, 2.95);
+          tl.to(".hlrow", { color: "#0a0a0a", duration: 0.15 }, 3.0);
+          tl.set({}, {}, 4);
+
+          window.__timelines["s03-dashboard"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

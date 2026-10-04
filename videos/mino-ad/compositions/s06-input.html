@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>06 Prompt input</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+        #s06-input {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #f4f4f0;
+        }
+        #s06-center {
+          position: absolute;
+          left: 410px;
+          top: 406px;
+          width: 1100px;
+          height: 128px;
+        }
+        .s06-ring,
+        .s06-wave {
+          position: absolute;
+          border-radius: 999px;
+          border: 1.5px solid #c8ff00;
+          box-shadow: 0 0 14px rgba(200, 255, 0, 0.35);
+        }
+        .s06-wave {
+          inset: 0;
+          border-width: 3px;
+          opacity: 0;
+        }
+        #s06-box {
+          position: absolute;
+          inset: 0;
+          border-radius: 64px;
+          border: 1px solid transparent;
+          background:
+            linear-gradient(180deg, #1a1a1a, #101010) padding-box,
+            linear-gradient(180deg, rgba(244, 244, 240, 0.45), rgba(244, 244, 240, 0.08)) border-box;
+          box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          padding: 0 22px 0 56px;
+        }
+        #s06-flash {
+          position: absolute;
+          inset: 0;
+          border-radius: 64px;
+          background: #c8ff00;
+          box-shadow: 0 0 40px rgba(200, 255, 0, 0.9), 0 0 120px rgba(200, 255, 0, 0.5);
+          opacity: 0;
+        }
+        #s06-field {
+          position: relative;
+          flex: 1;
+          height: 60px;
+          font-size: 44px;
+          line-height: 60px;
+          white-space: nowrap;
+        }
+        #s06-ph {
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0.32;
+        }
+        #s06-txt {
+          position: relative;
+        }
+        #s06-caret {
+          display: inline-block;
+          width: 3px;
+          height: 46px;
+          margin-left: 4px;
+          vertical-align: -6px;
+          background: #c8ff00;
+          box-shadow: 0 0 8px rgba(200, 255, 0, 0.9);
+        }
+        #s06-send {
+          position: relative;
+          width: 88px;
+          height: 88px;
+          border-radius: 50%;
+          background: #c8ff00;
+          box-shadow: 0 0 18px rgba(200, 255, 0, 0.8), 0 0 50px rgba(200, 255, 0, 0.35);
+          flex: none;
+        }
+        #s06-send::after {
+          content: "";
+          position: absolute;
+          left: 30px;
+          top: 26px;
+          width: 22px;
+          height: 22px;
+          border-top: 6px solid #0a0a0a;
+          border-right: 6px solid #0a0a0a;
+          transform: translate(-2px, 6px) rotate(45deg);
+        }
+        #s06-tags {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 690px;
+          display: flex;
+          justify-content: center;
+          gap: 22px;
+        }
+        .s06-tag {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          height: 66px;
+          padding: 0 30px 0 24px;
+          border-radius: 33px;
+          font-size: 30px;
+          background: rgba(200, 255, 0, 0.08);
+          border: 1.5px solid rgba(200, 255, 0, 0.7);
+          box-shadow: 0 0 18px rgba(200, 255, 0, 0.25);
+          white-space: nowrap;
+        }
+        .s06-tag i {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #c8ff00;
+          box-shadow: 0 0 10px rgba(200, 255, 0, 1);
+        }
+      </style>
+
+      <div data-hf-id="hf-c7ic" id="s06-input" data-composition-id="s06-input" data-width="1920" data-height="1080" data-duration="3.25" data-fps="60">
+        <div data-hf-id="hf-tyc9" id="s06-center" data-layout-allow-overflow="">
+          <div data-hf-id="hf-0rm7" id="s06-rings" data-layout-allow-overflow=""></div>
+          <div data-hf-id="hf-vrso" class="s06-wave" data-layout-allow-overflow=""></div>
+          <div data-hf-id="hf-ipg0" class="s06-wave" data-layout-allow-overflow=""></div>
+          <div data-hf-id="hf-hiix" class="s06-wave" data-layout-allow-overflow=""></div>
+          <div data-hf-id="hf-34he" id="s06-box">
+            <div data-hf-id="hf-7afd" id="s06-field"><span data-hf-id="hf-ws8i" id="s06-ph">아이디어 한 줄을 입력하세요</span><span data-hf-id="hf-5tdc" id="s06-txt"></span><i data-hf-id="hf-mfaw" id="s06-caret"></i></div>
+            <div data-hf-id="hf-37zl" id="s06-send"></div>
+          </div>
+          <div data-hf-id="hf-w2bb" id="s06-flash"></div>
+        </div>
+        <div data-hf-id="hf-t0bw" id="s06-tags">
+          <div data-hf-id="hf-ry68" class="s06-tag"><i data-hf-id="hf-wt6k"></i>대본 생성</div>
+          <div data-hf-id="hf-w0la" class="s06-tag"><i data-hf-id="hf-zeb8"></i>썸네일</div>
+          <div data-hf-id="hf-vyth" class="s06-tag"><i data-hf-id="hf-y7e5"></i>자막</div>
+          <div data-hf-id="hf-5wmt" class="s06-tag"><i data-hf-id="hf-ylp6"></i>음악</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const K = window.MinoKit;
+          const ringsEl = document.getElementById("s06-rings");
+          const N = 6;
+          const rings = [];
+          for (let i = 0; i < N; i++) {
+            const r = document.createElement("div");
+            r.className = "s06-ring";
+            const inset = -(i + 1) * 30;
+            r.style.inset = inset + "px";
+            ringsEl.appendChild(r);
+            rings.push(r);
+          }
+
+          const tl = gsap.timeline({ paused: true });
+          const TYPE_AT = 0.3;
+          const TEXT = "직장인을 위한 클로드 활용법 릴스";
+          const ENTER = 1.6;
+
+          // Rings appear one by one while typing; their brightness breathes on a 1s cycle, forever.
+          const born = rings.map((_, i) => 0.35 + i * 0.2);
+          const s = { t: 0 };
+          const paint = () => {
+            const t = s.t;
+            rings.forEach((r, i) => {
+              const u = Math.min(1, Math.max(0, (t - born[i]) / 0.25));
+              const breath = 0.6 + 0.4 * Math.sin(2 * Math.PI * (t - i * 0.12));
+              const base = 0.62 - i * 0.08;
+              r.style.opacity = (u * base * breath).toFixed(3);
+              const push = Math.max(0, Math.sin(Math.PI * Math.min(1, Math.max(0, (t - ENTER - i * 0.04) / 0.5))));
+              r.style.transform = "scale(" + (0.94 + 0.06 * u + 0.05 * push).toFixed(4) + ")";
+            });
+            // caret blinks at 2Hz while idle, solid while typing
+            const typing = t >= TYPE_AT && t <= TYPE_AT + Array.from(TEXT).length / 16;
+            const caret = document.getElementById("s06-caret");
+            caret.style.opacity = t > ENTER + 0.05 ? "0" : typing || Math.floor(t * 4) % 2 === 0 ? "1" : "0";
+          };
+          paint();
+          tl.to(s, { t: 3.25, duration: 3.25, ease: "none", onUpdate: paint }, 0);
+
+          tl.fromTo("#s06-box", { y: 30, opacity: 0.3, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 0);
+          tl.to("#s06-ph", { opacity: 0, duration: 0.1 }, TYPE_AT);
+          K.type(tl, document.getElementById("s06-txt"), TEXT, TYPE_AT, 16);
+
+          // Enter: the send button presses, the field flashes lime, rings ripple outward.
+          tl.fromTo("#s06-send", { scale: 1 }, { scale: 0.82, duration: 0.08, yoyo: true, repeat: 1, ease: "power2.out" }, ENTER - 0.08);
+          tl.fromTo("#s06-flash", { opacity: 0 }, { opacity: 0.95, duration: 0.06, ease: "none" }, ENTER);
+          tl.to("#s06-flash", { opacity: 0, duration: 0.3, ease: "power2.out" }, ENTER + 0.08);
+          tl.fromTo("#s06-txt", { color: "#f4f4f0" }, { color: "#0a0a0a", duration: 0.04, yoyo: true, repeat: 1, repeatDelay: 0.08 }, ENTER);
+          gsap.utils.toArray("#s06-input .s06-wave").forEach((w, i) => {
+            tl.fromTo(w, { scaleX: 1, scaleY: 1, opacity: 0.9 }, { scaleX: 1.45, scaleY: 2.6, opacity: 0, duration: 0.8, ease: "power2.out" }, ENTER + i * 0.12);
+          });
+
+          // Four tags pop in order.
+          gsap.utils.toArray("#s06-input .s06-tag").forEach((tag, i) => {
+            tl.fromTo(tag, { y: 26, scale: 0.6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.4)" }, ENTER + 0.2 + i * 0.12);
+          });
+          tl.set({}, {}, 3.25);
+          window.__timelines["s06-input"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

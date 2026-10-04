@@ -1,11 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <title>MINO test 08</title>
-    <link rel="stylesheet" href="assets/mino.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>MINO — brand film</title>
+    <link rel="stylesheet" href="assets/mino.css">
     <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/motion-blur.js"></script>
     <script src="assets/mino.js"></script>
     <style>
       #main {
@@ -13,37 +14,79 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+        background: #0a0a0a;
       }
     </style>
   </head>
   <body>
-    <div id="main" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="4" data-fps="60">
-      <div id="chrome-bg"><div class="glow" data-layout-allow-overflow></div><div class="grid"></div></div>
-      <div
-        id="s08"
-        data-composition-id="s08-phone"
-        data-composition-src="compositions/s08-phone.html"
-        data-start="0"
-        data-duration="4"
-        data-track-index="1"
-        data-width="1920"
-        data-height="1080"
-      ></div>
-      <div id="chrome-hud">
-        <div class="tl"><div class="tc">MINO · 00:00:00</div><div class="s1"></div><div class="s2"></div></div>
-        <div class="br"></div>
+    <div data-hf-id="hf-rtmw" id="main" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="30.5" data-fps="60">
+      <div data-hf-id="hf-qzdq" class="scene" id="w01" style="z-index:1">
+        <div data-hf-id="hf-yddi" class="sbg"><div data-hf-id="hf-5mei" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-kxq8" class="grid"></div></div>
+        <div data-hf-id="hf-e4uz" id="c-s01-logo" data-composition-id="s01-logo" data-composition-src="compositions/s01-logo.html" data-start="0" data-duration="3" data-track-index="1" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-cnyb" class="hud"><div data-hf-id="hf-tgpc" class="tl"><div data-hf-id="hf-gy6v" class="tc"></div><div data-hf-id="hf-ly60" class="s1"></div><div data-hf-id="hf-um1v" class="s2"></div></div><div data-hf-id="hf-rows" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-kcfi" class="scene" id="w02" style="z-index:2">
+        <div data-hf-id="hf-bli2" class="sbg"><div data-hf-id="hf-a2y6" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-6qwo" class="grid"></div></div>
+        <div data-hf-id="hf-90jn" id="c-s02-words" data-composition-id="s02-words" data-composition-src="compositions/s02-words.html" data-start="3" data-duration="3.25" data-track-index="2" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-9tqb" class="hud"><div data-hf-id="hf-tdbc" class="tl"><div data-hf-id="hf-lno7" class="tc"></div><div data-hf-id="hf-85cg" class="s1"></div><div data-hf-id="hf-upsz" class="s2"></div></div><div data-hf-id="hf-rkyc" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-a3ai" class="scene" id="w03" style="z-index:3">
+        <div data-hf-id="hf-bzt3" class="sbg"><div data-hf-id="hf-ah97" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-5jzl" class="grid"></div></div>
+        <div data-hf-id="hf-ny9a" id="c-s03-dashboard" data-composition-id="s03-dashboard" data-composition-src="compositions/s03-dashboard.html" data-start="6" data-duration="4.25" data-track-index="3" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-9ffa" class="hud"><div data-hf-id="hf-s6e9" class="tl"><div data-hf-id="hf-l9d6" class="tc"></div><div data-hf-id="hf-6yfd" class="s1"></div><div data-hf-id="hf-ubhy" class="s2"></div></div><div data-hf-id="hf-qe19" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-nz12" class="scene light" id="w04" style="z-index:4">
+        <div data-hf-id="hf-cx1s" class="sbg paper"><div data-hf-id="hf-5yam" class="grid"></div></div>
+        <div data-hf-id="hf-zq3n" id="c-s04-templates" data-composition-id="s04-templates" data-composition-src="compositions/s04-templates.html" data-start="10" data-duration="3.25" data-track-index="4" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-9149" class="hud"><div data-hf-id="hf-skpa" class="tl"><div data-hf-id="hf-kv25" class="tc"></div><div data-hf-id="hf-7cqe" class="s1"></div><div data-hf-id="hf-tx6x" class="s2"></div></div><div data-hf-id="hf-qsca" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-u5p2" class="scene" id="w05" style="z-index:5">
+        <div data-hf-id="hf-ce44" class="sbg"><div data-hf-id="hf-avk8" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-4rdj" class="grid"></div></div>
+        <div data-hf-id="hf-l00p" id="c-s05-orbit" data-composition-id="s05-orbit" data-composition-src="compositions/s05-orbit.html" data-start="13" data-duration="2.8" data-track-index="5" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-8mt8" class="hud"><div data-hf-id="hf-rds7" class="tl"><div data-hf-id="hf-nn7c" class="tc"></div><div data-hf-id="hf-65tb" class="s1"></div><div data-hf-id="hf-tivw" class="s2"></div></div><div data-hf-id="hf-srvf" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-cio6" class="scene" id="w06" style="z-index:6">
+        <div data-hf-id="hf-csf5" class="sbg"><div data-hf-id="hf-83f1" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-55ok" class="grid"></div></div>
+        <div data-hf-id="hf-81jw" id="c-s06-input" data-composition-id="s06-input" data-composition-src="compositions/s06-input.html" data-start="15.5" data-duration="3.25" data-track-index="6" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-88i7" class="hud"><div data-hf-id="hf-rs38" class="tl"><div data-hf-id="hf-n8wb" class="tc"></div><div data-hf-id="hf-6k4c" class="s1"></div><div data-hf-id="hf-t4kv" class="s2"></div></div><div data-hf-id="hf-t66g" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-fj6n" class="scene light" id="w07a" style="z-index:7">
+        <div data-hf-id="hf-oh7s" class="sbg paper"><div data-hf-id="hf-3yrh" class="grid"></div></div>
+        <div data-hf-id="hf-lkd2" id="c-s07a-templates" data-composition-id="s07a-templates" data-composition-src="compositions/s07a-templates.html" data-start="18.5" data-duration="1.75" data-track-index="7" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-7u76" class="hud"><div data-hf-id="hf-ql65" class="tl"><div data-hf-id="hf-mula" class="tc"></div><div data-hf-id="hf-5d79" class="s1"></div><div data-hf-id="hf-sq9u" class="s2"></div></div><div data-hf-id="hf-rz9d" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-lxev" class="scene" id="w07b" style="z-index:8">
+        <div data-hf-id="hf-d6q6" class="sbg"><div data-hf-id="hf-8hq2" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-4d2i" class="grid"></div></div>
+        <div data-hf-id="hf-z68t" id="c-s07b-minutes" data-composition-id="s07b-minutes" data-composition-src="compositions/s07b-minutes.html" data-start="20" data-duration="1.5" data-track-index="8" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-7fw5" class="hud"><div data-hf-id="hf-qzh6" class="tl"><div data-hf-id="hf-mga9" class="tc"></div><div data-hf-id="hf-5ria" class="s1"></div><div data-hf-id="hf-sbyt" class="s2"></div></div><div data-hf-id="hf-sdke" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-3xjf" class="scene" id="w08" style="z-index:9">
+        <div data-hf-id="hf-dl17" class="sbg"><div data-hf-id="hf-8w13" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-9j1v" class="grid"></div></div>
+        <div data-hf-id="hf-0z7w" id="c-s08-phone" data-composition-id="s08-phone" data-composition-src="compositions/s08-phone.html" data-start="21.5" data-duration="4" data-track-index="9" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-71l4" class="hud"><div data-hf-id="hf-w5gj" class="tl"><div data-hf-id="hf-p8fg" class="tc"></div><div data-hf-id="hf-4kl7" class="s1"></div><div data-hf-id="hf-rxns" class="s2"></div></div><div data-hf-id="hf-ud3j" class="br"></div></div>
+      </div>
+      <div data-hf-id="hf-9mqq" class="scene" id="w09" style="z-index:10">
+        <div data-hf-id="hf-dzc8" class="sbg"><div data-hf-id="hf-9ac4" class="glow" data-layout-allow-overflow=""></div><div data-hf-id="hf-9xcw" class="grid"></div></div>
+        <div data-hf-id="hf-o3bf" id="c-s09-montage" data-composition-id="s09-montage" data-composition-src="compositions/s09-montage.html" data-start="25.5" data-duration="5" data-track-index="10" data-width="1920" data-height="1080"></div>
+        <div data-hf-id="hf-6na3" class="hud"><div data-hf-id="hf-wjrk" class="tl"><div data-hf-id="hf-ou4f" class="tc"></div><div data-hf-id="hf-4yw8" class="s1"></div><div data-hf-id="hf-rjcr" class="s2"></div></div><div data-hf-id="hf-urek" class="br"></div></div>
       </div>
     </div>
     <script>
-      const tl = gsap.timeline({ paused: true });
+      const W = 1920;
+      const H = 1080;
       const root = document.getElementById("main");
-      MinoKit.chrome(tl, root, {
-        offset: 21.5,
-        duration: 4,
-        scene: 8,
-        status: ["STATUS · REVISING BY CHAT", "RENDER · 60FPS"],
-        glow: [[0.08, 0.9], [0.25, 0.75]],
-      });
+      const tl = gsap.timeline({ paused: true });
+      // Scene windows (global seconds). A wiped scene is revealed behind the lime band;
+      // the outgoing scene stays visible 0.25s longer so the band always has something to cover.
+      const SCENES = [{"id": "w01", "start": 0, "end": 3, "enter": "cut", "scenes": [[0, 1]], "status": ["STATUS · BOOT", "IDEA → VIDEO"], "glow": [[0.15, 0.85], [0.3, 0.7]]}, {"id": "w02", "start": 3, "end": 6.25, "enter": "cut", "scenes": [[3, 2]], "status": ["STATUS · PARSING IDEA", "PIPELINE · SCRIPT / DESIGN / VIDEO"], "glow": [[0.85, 0.85], [0.7, 0.75]]}, {"id": "w03", "start": 6, "end": 10.25, "enter": "wipe", "scenes": [[6, 3]], "status": ["STATUS · BUILDING DASHBOARD", "PROJECTS · 5 ACTIVE"], "glow": [[0.92, 0.1], [0.7, 0.2]]}, {"id": "w04", "start": 10, "end": 13.25, "enter": "wipe", "scenes": [[10, 4]], "status": ["STATUS · LOADING TEMPLATES", "LIBRARY · 325"], "glow": [[0.5, 0.5], [0.5, 0.5]]}, {"id": "w05", "start": 13, "end": 15.8, "enter": "wipe", "scenes": [[13, 5]], "status": ["STATUS · ORCHESTRATING", "AGENTS · 6 ONLINE"], "glow": [[0.1, 0.15], [0.25, 0.3]]}, {"id": "w06", "start": 15.5, "end": 18.75, "enter": "line", "scenes": [[15.5, 6]], "status": ["STATUS · AWAITING PROMPT", "INPUT · 1 LINE"], "glow": [[0.9, 0.9], [0.75, 0.8]]}, {"id": "w07a", "start": 18.5, "end": 20.25, "enter": "wipe", "scenes": [[18.5, 7]], "status": ["STATUS · MEASURING", "TEMPLATES · 325"], "glow": [[0.5, 0.5], [0.5, 0.5]]}, {"id": "w07b", "start": 20, "end": 21.5, "enter": "wipe", "scenes": [[20, 7]], "status": ["STATUS · MEASURING", "AVG · 4 MIN"], "glow": [[0.12, 0.2], [0.3, 0.1]]}, {"id": "w08", "start": 21.5, "end": 25.5, "enter": "cut", "scenes": [[21.5, 8]], "status": ["STATUS · REVISING BY CHAT", "EDITS · LIVE"], "glow": [[0.08, 0.9], [0.25, 0.75]]}, {"id": "w09", "start": 25.5, "end": 30.5, "enter": "cut", "scenes": [[25.5, 9], [27.5, 10]], "status": ["STATUS · COMPILING", "SCENES · 08"], "glow": [[0.5, 0.95], [0.6, 0.8]]}];
+      for (const s of SCENES) {
+        const wrap = document.getElementById(s.id);
+        MinoKit.show(tl, wrap, s.start, s.end);
+        MinoKit.chrome(tl, wrap, W, H, s);
+        if (s.enter === "wipe") MinoKit.wipeIn(tl, root, wrap, s.start, W);
+        if (s.enter === "line") MinoKit.lineOpen(tl, root, wrap, s.start, H);
+      }
+      tl.set({}, {}, 30.5);
       window.__timelines["main"] = tl;
     </script>
   </body>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>05 Logo orbit</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+        #s05-orbit {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #f4f4f0;
+        }
+        #s05-halo {
+          position: absolute;
+          left: 960px;
+          top: 540px;
+          width: 900px;
+          height: 900px;
+          margin: -450px 0 0 -450px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(200, 255, 0, 0.5) 0%, rgba(200, 255, 0, 0.16) 35%, rgba(200, 255, 0, 0) 68%);
+        }
+        #s05-core {
+          position: absolute;
+          left: 960px;
+          top: 540px;
+          width: 280px;
+          height: 280px;
+          margin: -140px 0 0 -140px;
+          z-index: 2;
+        }
+        #s05-core .sym-a svg {
+          filter: drop-shadow(0 0 16px rgba(200, 255, 0, 1)) drop-shadow(0 0 60px rgba(200, 255, 0, 0.6));
+        }
+        #s05-core .sym-b svg {
+          filter: drop-shadow(0 0 18px rgba(244, 244, 240, 0.35));
+        }
+        #s05-rings {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1920px;
+          height: 1080px;
+          overflow: visible;
+          z-index: 1;
+        }
+        #s05-rings ellipse {
+          fill: none;
+          stroke: rgba(244, 244, 240, 0.28);
+          stroke-width: 1.5;
+        }
+        .s05-lab {
+          position: absolute;
+          left: 0;
+          top: 0;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-size: 34px;
+          white-space: nowrap;
+          transform-origin: 9px 50%;
+        }
+        .s05-lab i {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #c8ff00;
+          box-shadow: 0 0 10px rgba(200, 255, 0, 1), 0 0 26px rgba(200, 255, 0, 0.5);
+          flex: none;
+        }
+        #s05-line {
+          position: absolute;
+          left: 0;
+          top: 539px;
+          width: 1920px;
+          height: 2px;
+          background: #c8ff00;
+          box-shadow: 0 0 12px rgba(200, 255, 0, 0.9), 0 0 36px rgba(200, 255, 0, 0.5);
+          transform-origin: 960px 50%;
+          transform: scaleX(0);
+          z-index: 3;
+        }
+        #s05-pt {
+          position: absolute;
+          left: 952px;
+          top: 532px;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: #c8ff00;
+          box-shadow: 0 0 14px rgba(200, 255, 0, 1), 0 0 40px rgba(200, 255, 0, 0.6);
+          opacity: 0;
+          z-index: 3;
+        }
+      </style>
+
+      <div data-hf-id="hf-4xe6" id="s05-orbit" data-composition-id="s05-orbit" data-width="1920" data-height="1080" data-duration="2.8" data-fps="60">
+        <div data-hf-id="hf-4l5x" id="s05-halo" data-layout-allow-overflow=""></div>
+        <svg data-hf-id="hf-jdhb" id="s05-rings" viewBox="0 0 1920 1080" data-layout-allow-overflow=""><g data-hf-id="hf-nbm3" id="s05-g" /></svg>
+        <div data-hf-id="hf-cujj" id="s05-core"></div>
+        <div data-hf-id="hf-ooy7" id="s05-labs" data-layout-allow-overflow=""></div>
+        <div data-hf-id="hf-yrmi" id="s05-pt"></div>
+        <div data-hf-id="hf-07rk" id="s05-line"></div>
+      </div>
+
+      <script>
+        (function () {
+          const K = window.MinoKit;
+          document.getElementById("s05-core").innerHTML = K.symbolHTML("s05-sym");
+          const CX = 960;
+          const CY = 540;
+          const ORBITS = [
+            { rx: 540, ry: 150, tilt: -12, speed: 1.3 },
+            { rx: 460, ry: 220, tilt: 17, speed: -0.95 },
+            { rx: 560, ry: 105, tilt: 5, speed: 0.75 },
+          ];
+          const LABELS = [
+            ["대본", 0, 0.3], ["썸네일", 0, Math.PI + 0.3],
+            ["자막", 1, Math.PI / 2], ["음악", 1, (3 * Math.PI) / 2],
+            ["캡션", 2, Math.PI / 3], ["해시태그", 2, (4 * Math.PI) / 3],
+          ];
+          const g = document.getElementById("s05-g");
+          const rings = ORBITS.map((o) => {
+            const e = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+            e.setAttribute("cx", 0);
+            e.setAttribute("cy", 0);
+            e.setAttribute("rx", o.rx);
+            e.setAttribute("ry", o.ry);
+            g.appendChild(e);
+            return e;
+          });
+          const labLayer = document.getElementById("s05-labs");
+          const labs = LABELS.map((l) => {
+            const d = document.createElement("div");
+            d.className = "s05-lab";
+            d.innerHTML = "<i></i><span>" + l[0] + "</span>";
+            labLayer.appendChild(d);
+            return d;
+          });
+
+          const clamp = (u) => Math.min(1, Math.max(0, u));
+          const easeIn = (u) => u * u * u;
+          const s = { t: 0 };
+          // Orbit flattening: Y squashes to a line (2.0-2.2), then X is pulled into the point (2.12-2.34).
+          const paint = () => {
+            const t = s.t;
+            const fy = 1 - 0.985 * easeIn(clamp((t - 2.0) / 0.2));
+            const fx = 1 - easeIn(clamp((t - 2.12) / 0.22));
+            const intro = 1 - Math.pow(1 - clamp(t / 0.45), 3);
+            const sc = 0.75 + 0.25 * intro;
+            rings.forEach((e, i) => {
+              const o = ORBITS[i];
+              e.setAttribute("transform", "translate(" + CX + " " + CY + ") scale(" + (fx * sc).toFixed(4) + " " + (fy * sc).toFixed(4) + ") rotate(" + o.tilt + ")");
+              e.style.opacity = (intro * (fx > 0.02 ? 1 : 0)).toFixed(3);
+            });
+            labs.forEach((d, i) => {
+              const [, oi, th0] = LABELS[i];
+              const o = ORBITS[oi];
+              const th = th0 + o.speed * t;
+              const ex = o.rx * Math.cos(th);
+              const ey = o.ry * Math.sin(th);
+              const a = (o.tilt * Math.PI) / 180;
+              const x = (ex * Math.cos(a) - ey * Math.sin(a)) * fx * sc;
+              const y = (ex * Math.sin(a) + ey * Math.cos(a)) * fy * sc;
+              const depth = (Math.sin(th) + 1) / 2; // 1 = front
+              const k = 0.62 + 0.5 * depth;
+              d.style.transform = "translate(" + (CX + x - 9).toFixed(1) + "px," + (CY + y - 22).toFixed(1) + "px) scale(" + (k * (0.4 + 0.6 * fx)).toFixed(3) + ")";
+              d.style.opacity = ((0.22 + 0.78 * depth) * intro * fx).toFixed(3);
+              d.style.filter = "blur(" + ((1 - depth) * 2.4).toFixed(2) + "px)";
+              d.style.zIndex = depth > 0.5 ? 4 : 1;
+            });
+          };
+          paint();
+
+          const tl = gsap.timeline({ paused: true });
+          tl.to(s, { t: 2.8, duration: 2.8, ease: "none", onUpdate: paint }, 0);
+          // Symbol: big, glowing, one Y-axis turn every 2s.
+          tl.fromTo("#s05-core", { scale: 0.7, opacity: 0.4 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 0);
+          tl.fromTo("#s05-sym", { transformPerspective: 1400, rotationY: 0 }, { rotationY: 360, duration: 2.0, ease: "none" }, 0);
+          tl.fromTo("#s05-halo", { opacity: 0.6, scale: 0.85 }, { opacity: 1, scale: 1.05, duration: 1, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+          // Collapse: symbol shrinks to a point; orbits and labels are flattened and sucked in.
+          tl.to("#s05-core", { scale: 0, duration: 0.3, ease: "power3.in" }, 2.0);
+          tl.to("#s05-halo", { scale: 0.05, opacity: 0, duration: 0.3, ease: "power3.in" }, 2.0);
+          tl.fromTo("#s05-pt", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.1 }, 2.22);
+          // Only a horizontal line remains, then it stretches out to both edges.
+          tl.fromTo("#s05-line", { scaleX: 0 }, { scaleX: 1, duration: 0.18, ease: "power3.in" }, 2.32);
+          tl.to("#s05-pt", { opacity: 0, duration: 0.08 }, 2.42);
+          tl.set({}, {}, 2.8);
+          window.__timelines["s05-orbit"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

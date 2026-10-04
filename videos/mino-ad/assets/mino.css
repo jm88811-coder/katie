@@ -40,14 +40,20 @@ body {
   color: var(--paper);
 }
 
-/* ---------- shared chrome: background + HUD (host level) ---------- */
-#chrome-bg {
+/* ---------- scene wrappers: background + HUD (host level) ---------- */
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.sbg {
   position: absolute;
   inset: 0;
   overflow: hidden;
   background: var(--ink);
 }
-#chrome-bg .grid {
+.sbg .grid {
   position: absolute;
   inset: 0;
   opacity: 0.06;
@@ -56,7 +62,7 @@ body {
     linear-gradient(to bottom, var(--paper) 1px, transparent 1px);
   background-size: 80px 80px;
 }
-#chrome-bg .glow {
+.sbg .glow {
   position: absolute;
   left: 0;
   top: 0;
@@ -67,8 +73,16 @@ body {
   background: radial-gradient(circle, rgba(42, 74, 0, 0.95) 0%, rgba(26, 46, 0, 0.6) 35%, rgba(26, 46, 0, 0) 70%);
   opacity: 0.22;
 }
-
-#chrome-hud {
+.sbg.paper {
+  background: radial-gradient(ellipse 80% 75% at 50% 45%, #fcfafd 0%, #f6f1f7 50%, #ebe3ee 85%, #dfd5e4 100%);
+}
+.sbg.paper .grid {
+  opacity: 0.05;
+  background-image:
+    linear-gradient(to right, #3a2f45 1px, transparent 1px),
+    linear-gradient(to bottom, #3a2f45 1px, transparent 1px);
+}
+.hud {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -80,16 +94,95 @@ body {
   opacity: 0.4;
   z-index: 50;
 }
-#chrome-hud .tl {
+.scene.light .hud {
+  color: var(--ink);
+}
+.hud .tl {
   position: absolute;
   left: 56px;
   top: 44px;
   line-height: 1.6;
 }
-#chrome-hud .br {
+.hud .br {
   position: absolute;
   right: 56px;
   bottom: 44px;
+}
+.wipe-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 900;
+  visibility: hidden;
+  background: linear-gradient(90deg, #b4ee00 0%, #c8ff00 45%, #dcff52 100%);
+  box-shadow: 0 0 60px rgba(200, 255, 0, 0.6);
+}
+.open-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 900;
+  visibility: hidden;
+  background: var(--lime);
+  box-shadow: 0 0 12px rgba(200, 255, 0, 0.9), 0 0 36px rgba(200, 255, 0, 0.5);
+}
+
+/* ---------- brand symbol + logo lockup ---------- */
+.sym {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.sym-a,
+.sym-b {
+  position: absolute;
+  inset: 0;
+}
+.sym svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.sym-a svg {
+  filter: drop-shadow(0 0 10px rgba(200, 255, 0, 0.8)) drop-shadow(0 0 34px rgba(200, 255, 0, 0.45));
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+.logo-sym {
+  width: 0.84em;
+  height: 0.84em;
+  flex: none;
+}
+.logo-word {
+  position: relative;
+  display: flex;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+.logo-word span {
+  display: block;
+}
+.logo-ai {
+  position: absolute;
+  right: -2.5em;
+  top: -1.25em;
+  font-size: 0.22em;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--lime);
+  padding: 0.14em 0.3em;
+  border-radius: 0.28em;
+  box-shadow: 0 0 14px rgba(200, 255, 0, 0.8), 0 0 40px rgba(200, 255, 0, 0.4);
 }
 
 /* ---------- odometer counter ---------- */

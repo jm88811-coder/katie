@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>09 Montage + 10 Ending</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+        @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Medium.woff2") format("woff2"); font-weight: 500; }
+        #s09-montage {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #f4f4f0;
+        }
+        #s09-grid {
+          position: absolute;
+          left: 204px;
+          top: 325px;
+          width: 1512px;
+          height: 430px;
+        }
+        .s09-th {
+          position: absolute;
+          width: 360px;
+          height: 203px;
+          border-radius: 14px;
+          overflow: hidden;
+          background: #111;
+          border: 1px solid rgba(244, 244, 240, 0.18);
+          box-shadow: 0 24px 40px -12px rgba(0, 0, 0, 0.8);
+        }
+        .s09-th img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .s09-th b {
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          font-family: "JetBrains Mono", monospace;
+          font-weight: 500;
+          font-size: 13px;
+          letter-spacing: 0.08em;
+          color: #f4f4f0;
+          background: rgba(10, 10, 10, 0.6);
+          padding: 2px 6px;
+          border-radius: 4px;
+        }
+        #s09-end {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        #s09-logobox {
+          font-size: 170px;
+          margin-top: -90px;
+        }
+        #s09-logobox .logo-sym {
+          position: relative;
+        }
+        #s09-ring {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 200px;
+          height: 200px;
+          margin: -100px 0 0 -100px;
+          border-radius: 50%;
+          border: 3px solid #c8ff00;
+          box-shadow: 0 0 24px rgba(200, 255, 0, 0.8);
+          opacity: 0;
+        }
+        #s09-made {
+          margin-top: 70px;
+          font-size: 92px;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          white-space: nowrap;
+        }
+        #s09-made .r {
+          font-weight: 400;
+          color: #f4f4f0;
+        }
+        #s09-made .x {
+          font-weight: 800;
+          color: #c8ff00;
+          filter: drop-shadow(0 0 12px rgba(200, 255, 0, 0.75)) drop-shadow(0 0 40px rgba(200, 255, 0, 0.35));
+        }
+        #s09-credit {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 92px;
+          text-align: center;
+          font-size: 24px;
+          letter-spacing: 0.04em;
+          opacity: 0.55;
+        }
+        #s09-halo {
+          position: absolute;
+          left: 960px;
+          top: 450px;
+          width: 1200px;
+          height: 900px;
+          margin: -450px 0 0 -600px;
+          border-radius: 50%;
+          background: radial-gradient(ellipse, rgba(200, 255, 0, 0.22) 0%, rgba(200, 255, 0, 0.06) 40%, rgba(200, 255, 0, 0) 70%);
+          opacity: 0;
+        }
+      </style>
+
+      <div data-hf-id="hf-7nuj" id="s09-montage" data-composition-id="s09-montage" data-width="1920" data-height="1080" data-duration="5" data-fps="60">
+        <div data-hf-id="hf-346h" id="s09-halo" data-layout-allow-overflow=""></div>
+        <div data-hf-id="hf-mbif" id="s09-grid" data-layout-allow-overflow=""></div>
+        <div data-hf-id="hf-w2g9" id="s09-end">
+          <div data-hf-id="hf-50ay" id="s09-logobox"></div>
+          <div data-hf-id="hf-dxpl" id="s09-made"><span data-hf-id="hf-hk5h" class="r">Made by </span><span data-hf-id="hf-w07i" class="x">mini ai</span></div>
+        </div>
+        <div data-hf-id="hf-v5e7" id="s09-credit">Made with Claude Code</div>
+      </div>
+
+      <script>
+        (function () {
+          const K = window.MinoKit;
+          const grid = document.getElementById("s09-grid");
+          const W = 360;
+          const H = 203;
+          const GAP = 24;
+          // Where each thumbnail flies in from (relative to its slot), and its spin.
+          const FROM = [
+            [-900, -520, -18], [-300, -760, 12], [300, -760, -10], [900, -520, 16],
+            [-900, 560, 14], [-300, 780, -12], [300, 780, 10], [900, 560, -16],
+          ];
+          const ths = [];
+          for (let i = 0; i < 8; i++) {
+            const d = document.createElement("div");
+            d.className = "s09-th";
+            d.id = "s09-th" + i;
+            d.style.left = (i % 4) * (W + GAP) + "px";
+            d.style.top = Math.floor(i / 4) * (H + GAP) + "px";
+            d.innerHTML = '<img src="assets/thumbs/0' + (i + 1) + '.jpg" alt="" /><b>0' + (i + 1) + "</b>";
+            d.setAttribute("data-hf-motion-blur", '{"fps": 60}');
+            grid.appendChild(d);
+            ths.push(d);
+          }
+          document.getElementById("s09-logobox").innerHTML = K.logoHTML("lg10");
+          document.querySelector("#s09-logobox .logo-sym").insertAdjacentHTML("beforeend", '<div id="s09-ring"></div>');
+          document.getElementById("lg10-sym-a").setAttribute("data-hf-motion-blur", '{"fps": 60}');
+          document.getElementById("lg10-sym-b").setAttribute("data-hf-motion-blur", '{"fps": 60}');
+
+          const tl = gsap.timeline({ paused: true });
+
+          // 09 — eight scenes fly in and gather into a 4x2 grid (last lands at 1.68), 0.3s hold.
+          ths.forEach((th, i) => {
+            const f = FROM[i];
+            tl.fromTo(th, { x: f[0] * 0.55, y: f[1] * 0.55, rotation: f[2], scale: 1.25 }, { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.7, ease: "power3.out" }, i * 0.14);
+          });
+          tl.fromTo("#s09-grid", { scale: 0.98 }, { scale: 1.02, duration: 2.0, ease: "none" }, 0);
+
+          // 10 — thumbnails scatter outward; the logo reassembles in reverse of 01.
+          const E = 2.0;
+          ths.forEach((th, i) => {
+            const f = FROM[(i + 4) % 8];
+            tl.to(th, { x: f[0] * 1.3, y: f[1] * 1.3, rotation: -f[2] * 1.5, scale: 0.6, duration: 0.45, ease: "power3.in" }, E + (7 - i) * 0.025);
+          });
+          tl.fromTo("#s09-halo", { opacity: 0 }, { opacity: 1, duration: 0.6 }, E + 0.2);
+          tl.fromTo("#lg10-ai", { scale: 0, rotation: 24, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.3, ease: "back.out(3)" }, E + 0.3);
+          ["#lg10-l3", "#lg10-l2", "#lg10-l1", "#lg10-l0"].forEach((sel, i) => {
+            tl.fromTo(sel, { y: 90, opacity: 0, filter: "blur(14px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.38, ease: "power3.out" }, E + 0.42 + i * 0.08);
+          });
+          tl.fromTo(["#lg10-sym-a", "#lg10-sym-b"], { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, E + 0.72);
+          tl.fromTo("#lg10-sym-a", { x: -760, y: 120, rotation: -140 }, { x: 0, y: 0, rotation: 0, duration: 0.45, ease: "power3.out" }, E + 0.72);
+          tl.fromTo("#lg10-sym-b", { x: 760, y: -120, rotation: 140 }, { x: 0, y: 0, rotation: 0, duration: 0.45, ease: "power3.out" }, E + 0.72);
+          tl.fromTo("#s09-ring", { scale: 0.4, opacity: 1 }, { scale: 2.1, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, E + 1.15);
+          tl.fromTo("#s09-logobox .logo-sym", { scale: 1.12 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, E + 1.15);
+          tl.fromTo("#lg10-sym", { rotation: 0 }, { rotation: 26, duration: 1.85, ease: "none" }, E + 1.15);
+
+          // Tagline + credit.
+          tl.fromTo("#s09-made", { y: 60, opacity: 0, filter: "blur(14px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power3.out" }, E + 1.25);
+          tl.fromTo("#s09-credit", { opacity: 0, y: 10 }, { opacity: 0.55, y: 0, duration: 0.4, ease: "power2.out" }, E + 1.6);
+          tl.fromTo("#s09-end", { scale: 1 }, { scale: 1.03, duration: 2.6, ease: "sine.inOut" }, E + 0.4);
+          tl.set({}, {}, 5);
+          window.__timelines["s09-montage"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

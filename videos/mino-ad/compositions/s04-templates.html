@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>04 Template flow</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; }
+        @font-face { font-family: "Pretendard"; src: url("assets/fonts/Pretendard-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+        @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Medium.woff2") format("woff2"); font-weight: 500; }
+        #s04-templates {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Pretendard", sans-serif;
+          color: #0a0a0a;
+        }
+        #s04-world {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1920px;
+          height: 1080px;
+          transform-origin: 0 0;
+        }
+        .s04-card {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 236px;
+          height: 350px;
+          border-radius: 22px;
+          background: #ffffff;
+          box-shadow:
+            0 2px 0 rgba(255, 255, 255, 0.9) inset,
+            0 18px 40px -12px rgba(70, 40, 90, 0.22),
+            0 4px 12px rgba(70, 40, 90, 0.08);
+          padding: 8px;
+          will-change: transform;
+        }
+        .s04-blk {
+          position: relative;
+          height: 282px;
+          border-radius: 16px;
+          overflow: hidden;
+        }
+        .s04-blk .shape {
+          position: absolute;
+          border-radius: 50%;
+          opacity: 0.35;
+          background: #ffffff;
+        }
+        .s04-play {
+          position: absolute;
+          left: 14px;
+          bottom: 14px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.92);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .s04-play::after {
+          content: "";
+          position: absolute;
+          left: 16px;
+          top: 12px;
+          border-left: 12px solid #0a0a0a;
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+        }
+        .s04-ttl {
+          height: 52px;
+          padding: 0 8px;
+          display: flex;
+          align-items: center;
+          font-size: 19px;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        #s04-scrim {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          height: 362px;
+          background: linear-gradient(180deg, #faf7fb 0%, #faf7fb 84%, rgba(250, 247, 251, 0) 100%);
+          opacity: 0;
+        }
+        #s04-head {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 58px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+        #s04-num {
+          display: flex;
+          align-items: baseline;
+          font-weight: 800;
+          font-size: 150px;
+          line-height: 1;
+          letter-spacing: -0.03em;
+        }
+        #s04-lbl {
+          font-family: "JetBrains Mono", monospace;
+          font-weight: 500;
+          font-size: 22px;
+          letter-spacing: 0.4em;
+          margin-right: -0.4em;
+          opacity: 0.6;
+        }
+      </style>
+
+      <div data-hf-id="hf-3p4m" id="s04-templates" data-composition-id="s04-templates" data-width="1920" data-height="1080" data-duration="3.25" data-fps="60">
+        <div data-hf-id="hf-j2cs" id="s04-world" data-layout-allow-overflow=""></div>
+        <div data-hf-id="hf-ym21" id="s04-scrim"></div>
+        <div data-hf-id="hf-f4rj" id="s04-head">
+          <div data-hf-id="hf-014n" id="s04-num"><span data-hf-id="hf-zm7g" id="s04-n">325</span><span data-hf-id="hf-iyzh">.</span></div>
+          <div data-hf-id="hf-pbao" id="s04-lbl">TEMPLATES</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const K = window.MinoKit;
+          const world = document.getElementById("s04-world");
+          const COLORS = [
+            ["#d8ff3a", "#a8e000"], ["#2a2a2a", "#0a0a0a"], ["#ff8db5", "#ff5f92"], ["#b3a6ff", "#7f6bff"],
+            ["#ffb066", "#ff8a2e"], ["#62e6d6", "#22c3b0"], ["#6d9bff", "#3466ff"], ["#ffe066", "#ffc71f"],
+            ["#3c6e52", "#1d3d2c"], ["#efe8f6", "#d9cde6"], ["#ff7a6e", "#ff4b3e"], ["#8ff0bd", "#4ed98f"],
+            ["#4a4a86", "#24244a"], ["#cff6ff", "#93e4f7"],
+          ];
+          const TITLES = [
+            "출근 전 5분 루틴", "회의록 3줄 요약", "보고서 자동 초안", "신입 온보딩 팁", "엑셀 함수 TOP5", "프롬프트 기본기", "이메일 답장 공식",
+            "주간 회고 템플릿", "발표 슬라이드 컷", "데이터 한눈에", "면접 준비 체크", "사이드 프로젝트", "퇴근 후 공부법", "팀 OKR 정리",
+          ];
+          const PITCH = 262;
+          const PER_ROW = 12;
+          const ROWS = [
+            { top: 290, x0: -480, v: 120, cards: [] }, // upper row: faster
+            { top: 668, x0: -440, v: 60, cards: [] }, // lower row: slower
+          ];
+          ROWS.forEach((row, r) => {
+            for (let i = 0; i < PER_ROW; i++) {
+              const idx = (r * 7 + i) % 14;
+              const c = COLORS[idx];
+              const card = document.createElement("div");
+              card.className = "s04-card";
+              card.innerHTML =
+                '<div class="s04-blk" style="background:linear-gradient(160deg,' + c[0] + "," + c[1] + ')">' +
+                '<i class="shape" style="width:150px;height:150px;right:-40px;top:-30px"></i>' +
+                '<i class="shape" style="width:70px;height:70px;left:30px;top:90px;opacity:.2"></i>' +
+                '<i class="s04-play"></i></div><div class="s04-ttl">' + TITLES[idx] + "</div>";
+              world.appendChild(card);
+              row.cards.push(card);
+            }
+          });
+
+          // Everything in this scene is a function of time t: row flow, camera, card bumps.
+          const CX = 960;
+          const CY = 650;
+          const rowX = (row, t) => row.x0 - row.v * t + 400 * Math.exp(-7 * t); // fast entry, then slow drift
+          const lower = ROWS[1];
+          // Target: the lower-row card nearest the centre when the zoom lands.
+          const tz = 1.8;
+          let k = 0;
+          let best = 1e9;
+          for (let i = 0; i < PER_ROW; i++) {
+            const cx = rowX(lower, tz) + i * PITCH + 118;
+            if (Math.abs(cx - CX) < best) { best = Math.abs(cx - CX); k = i; }
+          }
+          const fx0 = rowX(lower, tz) + k * PITCH + 118;
+          const fy = lower.top + 175;
+          const ease = (a, b, t) => { const u = Math.min(1, Math.max(0, (t - a) / (b - a))); return u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; };
+          const bump = (t, a) => { const u = (t - a) / 0.4; return u > 0 && u < 1 ? Math.sin(Math.PI * u) : 0; };
+
+          const s = { t: 0 };
+          const paint = () => {
+            const t = s.t;
+            const z = ease(1.5, 1.8, t);
+            const st1 = ease(2.1, 2.4, t);
+            const st2 = ease(2.7, 3.0, t);
+            const scale = 1 + 0.6 * z;
+            const fxNow = CX + (fx0 + PITCH * (st1 + st2) - CX) * z;
+            const fyNow = CY + (fy - CY) * z;
+            const moving = (t > 1.5 && t < 1.8) || (t > 2.1 && t < 2.4) || (t > 2.7 && t < 3.0);
+            const mv = Math.max(Math.sin(Math.PI * ease(1.5, 1.8, t)), Math.sin(Math.PI * ease(2.1, 2.4, t)), Math.sin(Math.PI * ease(2.7, 3.0, t)));
+            world.style.transform = "translate(" + (CX - fxNow * scale).toFixed(2) + "px," + (CY - fyNow * scale).toFixed(2) + "px) scale(" + scale.toFixed(4) + ")";
+            world.style.filter = moving ? "blur(" + (2.5 * mv).toFixed(2) + "px)" : "none";
+            ROWS.forEach((row, r) => {
+              const x = rowX(row, t);
+              row.cards.forEach((card, i) => {
+                let sc = 1;
+                if (r === 1) sc += 0.1 * (bump(t, 1.72) * (i === k) + bump(t, 2.32) * (i === k + 1) + bump(t, 2.92) * (i === k + 2));
+                card.style.transform = "translate(" + (x + i * PITCH).toFixed(2) + "px," + row.top + "px) scale(" + sc.toFixed(4) + ")";
+                card.style.zIndex = sc > 1.001 ? 2 : 1;
+              });
+            });
+          };
+          paint();
+
+          const tl = gsap.timeline({ paused: true });
+          tl.to(s, { t: 3.25, duration: 3.25, ease: "none", onUpdate: paint }, 0);
+          tl.fromTo("#s04-head", { y: 60, opacity: 0, filter: "blur(14px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 0.05);
+          K.odometer(tl, document.getElementById("s04-n"), 325, 0.1, 1.0);
+          tl.fromTo("#s04-scrim", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 1.5);
+          tl.fromTo("#s04-lbl", { opacity: 0, y: 12 }, { opacity: 0.6, y: 0, duration: 0.4, ease: "power2.out" }, 0.35);
+          window.__timelines["s04-templates"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

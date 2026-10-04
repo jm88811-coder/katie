@@ -5,6 +5,9 @@ export const OFFICE = {
   name: "더샵엘리포레 부동산",
   fullName: "더샵엘리포레공인중개사사무소",
   tagline: "입주민과 동행하는 부동산",
+  // 공인중개사법상 중개대상물 표시·광고 시 반드시 표시해야 하는 항목입니다. 채워 넣으면 페이지에 표시됩니다.
+  representative: "", // 예: "홍길동"
+  registrationNo: "", // 예: "41370-2021-00000"
   intro:
     "오산시 서동 더샵오산엘리포레 아파트 단지 내 상가 101호에 있는 더샵엘리포레 부동산입니다. 입주민의 재산을 소중하게 여기며, 더샵오산엘리포레 아파트의 값어치를 한층 업그레이드하겠습니다.",
   phone: "031-373-0005",
@@ -15,6 +18,7 @@ export const OFFICE = {
   visitNote: "오시기 전 전화 주시면 예약해 드립니다.",
   mapUrl: "https://naver.me/GM3jYKLC",
   blogUrl: "https://blog.naver.com/hwang8924",
+  blogRssUrl: "https://rss.blog.naver.com/hwang8924.xml",
 };
 
 export const HIGHLIGHTS = [

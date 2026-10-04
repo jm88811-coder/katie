@@ -12,12 +12,15 @@ import {
   SERVICES,
 } from "@/lib/data/realestate";
 import { FEE_TABLE, GUIDE_TOPICS } from "@/lib/data/realestateGuide";
+import { NEWS, OFFICIAL_LINKS, REGULATION_ASOF, REGULATIONS } from "@/lib/data/realestateNews";
+import { getBlogPosts } from "@/lib/blogFeed";
 import ConsultForm from "@/components/realestate/ConsultForm";
 
 const NAV = [
   { href: "#complexes", label: "취급 단지" },
   { href: "#services", label: "중개·상담" },
   { href: "#guide", label: "부동산 가이드" },
+  { href: "#news", label: "소식·규제" },
   { href: "#office", label: "사무소" },
   { href: "#contact", label: "상담·오시는 길" },
 ];
@@ -31,7 +34,16 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-export default function RealEstatePage() {
+export const revalidate = 3600;
+
+const LICENSE_INFO = [
+  OFFICE.representative && `대표 공인중개사 ${OFFICE.representative}`,
+  OFFICE.registrationNo && `등록번호 ${OFFICE.registrationNo}`,
+].filter(Boolean);
+
+export default async function RealEstatePage() {
+  const posts = await getBlogPosts(4);
+
   return (
     <div className="flex flex-1 flex-col">
       <header className="sticky top-0 z-20 border-b border-black/10 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-black/80">
@@ -228,7 +240,107 @@ export default function RealEstatePage() {
           </p>
         </section>
 
-        <section id="office" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
+        <section id="news" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle eyebrow="NEWS & POLICY" title="오산 부동산 소식·규제 한눈에" />
+
+            <div className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
+              <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="text-lg font-bold">오산 규제 현황</h3>
+                <span className="rounded-full bg-yellow-300 px-3 py-0.5 text-xs font-semibold text-black">{REGULATION_ASOF} 기준</span>
+              </div>
+              <ul className="grid gap-6 md:grid-cols-3">
+                {REGULATIONS.map((r) => (
+                  <li key={r.title} className="flex flex-col gap-1.5">
+                    <span className="text-sm text-foreground/55">{r.title}</span>
+                    <span className="text-lg font-bold text-red-600 dark:text-red-400">{r.status}</span>
+                    <p className="break-keep text-sm leading-relaxed text-foreground/70">{r.body}</p>
+                    <a href={r.source.url} target="_blank" rel="noopener noreferrer" className="text-xs text-foreground/50 underline hover:text-foreground">
+                      출처: {r.source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 text-xs text-foreground/50">
+                규제는 정부 발표에 따라 수시로 바뀝니다. 거래 전 아래 공식 사이트나 사무소 상담으로 최신 내용을 꼭 확인하세요.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+              <div className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
+                <div className="mb-4 flex items-baseline justify-between gap-2">
+                  <h3 className="text-lg font-bold">사무소 블로그 새 글</h3>
+                  <a href={OFFICE.blogUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/55 hover:underline">
+                    전체 보기 →
+                  </a>
+                </div>
+                {posts.length > 0 ? (
+                  <ul className="flex flex-col divide-y divide-black/5 dark:divide-white/10">
+                    {posts.map((p) => (
+                      <li key={p.link} className="py-3 first:pt-0 last:pb-0">
+                        <a href={p.link} target="_blank" rel="noopener noreferrer" className="group block">
+                          <span className="font-medium group-hover:underline">{p.title}</span>
+                          {p.excerpt && <span className="mt-0.5 block text-sm text-foreground/60">{p.excerpt}</span>}
+                          {p.date && <span className="mt-0.5 block text-xs text-foreground/45">{p.date}</span>}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="flex flex-col items-start gap-4">
+                    <p className="text-sm text-foreground/60">매물 소식, 단지 정보, 분양권 시세 이야기를 블로그에 꾸준히 올리고 있습니다.</p>
+                    <a
+                      href={OFFICE.blogUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-[#03C75A] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+                    >
+                      네이버 블로그 바로가기
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
+                <h3 className="mb-4 text-lg font-bold">오산 부동산 주요 기사</h3>
+                <ul className="flex flex-col divide-y divide-black/5 dark:divide-white/10">
+                  {NEWS.map((n) => (
+                    <li key={n.url} className="py-3 first:pt-0 last:pb-0">
+                      <a href={n.url} target="_blank" rel="noopener noreferrer" className="group block">
+                        <span className="font-medium group-hover:underline">{n.title}</span>
+                        <span className="mt-0.5 block text-xs text-foreground/45">
+                          {n.press} · {n.date}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-xs text-foreground/45">기사 내용은 각 언론사에 있으며, 제목을 누르면 원문으로 이동합니다.</p>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <h3 className="mb-3 text-sm font-semibold text-foreground/60">바로가는 공식 사이트</h3>
+              <ul className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                {OFFICIAL_LINKS.map((l) => (
+                  <li key={l.url}>
+                    <a
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block h-full rounded-xl border border-black/10 bg-background p-4 hover:border-red-500 dark:border-white/10"
+                    >
+                      <span className="block font-semibold">{l.label}</span>
+                      <span className="mt-0.5 block text-xs text-foreground/55">{l.desc}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="office" className="scroll-mt-20 py-16">
           <div className="mx-auto max-w-6xl px-4">
           <SectionTitle eyebrow="OFFICE" title="사무소 둘러보기" />
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -251,15 +363,27 @@ export default function RealEstatePage() {
           </div>
         </section>
 
-        <section id="contact" className="scroll-mt-20 py-16">
+        <section id="contact" className="scroll-mt-20 bg-black/[0.03] py-16 dark:bg-white/[0.03]">
           <div className="mx-auto max-w-6xl px-4">
             <SectionTitle eyebrow="CONTACT" title="매물 접수 · 상담 신청" />
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-              <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
+              <div className="rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
                 <ConsultForm mobile={OFFICE.mobile} />
               </div>
               <div className="flex flex-col gap-6 rounded-2xl border border-black/10 bg-background p-6 dark:border-white/10">
                 <dl className="grid grid-cols-[5rem_1fr] gap-y-3 text-sm">
+                  {OFFICE.representative && (
+                    <>
+                      <dt className="text-foreground/55">대표</dt>
+                      <dd>공인중개사 {OFFICE.representative}</dd>
+                    </>
+                  )}
+                  {OFFICE.registrationNo && (
+                    <>
+                      <dt className="text-foreground/55">등록번호</dt>
+                      <dd>{OFFICE.registrationNo}</dd>
+                    </>
+                  )}
                   <dt className="text-foreground/55">주소</dt>
                   <dd>
                     {OFFICE.address}
@@ -309,7 +433,7 @@ export default function RealEstatePage() {
       </main>
 
       <footer className="border-t border-black/10 py-8 text-center text-xs leading-relaxed text-foreground/50 dark:border-white/10">
-        <p>{OFFICE.fullName}</p>
+        <p>{[OFFICE.fullName, ...LICENSE_INFO].join(" · ")}</p>
         <p>
           {OFFICE.address} · TEL {OFFICE.phone} · Mobile {OFFICE.mobile}
         </p>

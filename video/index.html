@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>테스트 렌더</title>
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Pretendard";
+        src: url("fonts/Pretendard-Regular.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Pretendard";
+        src: url("fonts/Pretendard-SemiBold.woff2") format("woff2");
+        font-weight: 600;
+      }
+      @font-face {
+        font-family: "Pretendard";
+        src: url("fonts/Pretendard-ExtraBold.woff2") format("woff2");
+        font-weight: 800;
+      }
+      body {
+        margin: 0;
+        background: #0b0d12;
+        color: #f5f6f8;
+        font-family: "Pretendard", sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: radial-gradient(ellipse at center, #171b24 0%, #0b0d12 70%);
+      }
+      .stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+      }
+      #title {
+        margin: 0;
+        font-size: 120px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      #count {
+        margin: 0;
+        width: 400px;
+        text-align: center;
+        font-size: 160px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: #8fb8ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-width="1920"
+      data-height="1080"
+      data-duration="6"
+      data-fps="60"
+    >
+      <div id="card" class="stage">
+        <h1 id="title">테스트 렌더</h1>
+        <p id="count">0</p>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#title", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, 0.2);
+      tl.fromTo("#count", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.8);
+
+      // 0 → 100 as seek-safe keyframes (power2.out pacing over 1.0s–5.0s).
+      const countEl = document.getElementById("count");
+      const start = 1.0;
+      const span = 4.0;
+      for (let i = 0; i <= 100; i++) {
+        const t = start + span * (1 - Math.sqrt(1 - i / 100));
+        tl.set(countEl, { textContent: String(i) }, t);
+      }
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

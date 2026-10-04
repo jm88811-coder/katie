@@ -51,6 +51,7 @@ export default async function RealEstatePage() {
           <a href="#top" className="flex items-center gap-2 text-lg font-bold tracking-tight">
             <span className="rounded bg-red-600 px-1.5 py-0.5 text-xs leading-tight text-white">더샵</span>
             엘리포레 부동산
+            <span className="hidden text-xs font-normal text-foreground/50 sm:inline">오산 서동 단지 내</span>
           </a>
           <nav className="hidden gap-1 text-sm md:flex">
             {NAV.map((n) => (

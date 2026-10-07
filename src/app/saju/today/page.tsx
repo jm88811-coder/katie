@@ -1,5 +1,6 @@
 "use client";
 
+import { CountUp } from "@/components/saju/motion";
 import { ChartGate } from "@/components/saju/Gate";
 import { AdSlot, Card, H2, ScoreBar, StreakBadge } from "@/components/saju/ui";
 import { analyze, pillarName, ELEMENT_COLORS } from "@/lib/saju/core";
@@ -19,7 +20,7 @@ export default function TodayPage() {
 
             <Card className="mt-5 text-center">
               <div className="text-sm text-[var(--ink-soft)]">종합 운세</div>
-              <div className="serif my-1 text-5xl font-bold text-[var(--seal)]">{f.total}<span className="text-xl">점</span></div>
+              <div className="serif my-1 text-5xl font-bold text-[var(--seal)]"><CountUp value={f.total} /><span className="text-xl">점</span></div>
               <p className="text-sm leading-relaxed">{f.advice}</p>
               {f.relation && <p className="mt-2 text-sm text-[var(--ink-soft)]">{f.relation}</p>}
             </Card>

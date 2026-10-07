@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ChartGate } from "@/components/saju/Gate";
 import { AdSlot, Card, DaewoonTimeline, ElementChart, H2, LockedReport, PillarsTable, ShareButton, StreakBadge } from "@/components/saju/ui";
 import { ageOf, analyze, daewoon, ANIMALS, ELEMENTS, STEMS } from "@/lib/saju/core";
+import { DodlyeongSays } from "@/components/saju/motion";
+import { dodlyeongSay, pickLenses } from "@/lib/saju/wisdom";
 import { PARTNERS, deepSections, freeSummary, godSummary } from "@/lib/saju/content";
 
 export default function ResultPage() {
@@ -26,6 +28,8 @@ export default function ResultPage() {
             </p>
             <h1 className="serif mt-1 text-2xl font-bold leading-snug">{sum.headline}</h1>
             <div className="mt-3 flex flex-wrap gap-2"><ShareButton /><StreakBadge record /></div>
+            <div className="mt-5"><DodlyeongSays mood="divine" text={dodlyeongSay(chart, an, pickLenses(chart, an))} /></div>
+            <Link href={`/saju/path?${new URLSearchParams(location.search)}`} className="mt-3 block rounded-xl bg-[var(--seal)] px-5 py-3 text-center font-semibold text-white">달도령의 인생 전략서 보기 →</Link>
 
             <H2>사주팔자 (만세력)</H2>
             <PillarsTable chart={chart} />
@@ -66,7 +70,8 @@ export default function ResultPage() {
             </div>
 
             <H2>이어서 보기</H2>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Link className="card p-4 text-sm" href={`/saju/path?${new URLSearchParams(location.search)}`}>인생 전략서 →</Link>
               <Link className="card p-4 text-sm" href={`/saju/today?${new URLSearchParams(location.search)}`}>오늘의 운세 →</Link>
               <Link className="card p-4 text-sm" href={`/saju/year?${new URLSearchParams(location.search)}`}>2027 신년운세 →</Link>
               <Link className="card p-4 text-sm" href={`/saju/match`}>궁합 보기 →</Link>

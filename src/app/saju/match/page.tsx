@@ -1,5 +1,6 @@
 "use client";
 
+import { CountUp } from "@/components/saju/motion";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BirthForm, Card, H2, ScoreBar, AdSlot } from "@/components/saju/ui";
@@ -20,7 +21,7 @@ function Inner() {
       <>
         <h1 className="serif text-2xl font-bold">{a!.name || "나"} ♥ {b!.name || "상대"} 궁합</h1>
         <Card className="mt-5 text-center">
-          <div className="serif text-5xl font-bold text-[var(--seal)]">{r.total}<span className="text-xl">점</span></div>
+          <div className="serif text-5xl font-bold text-[var(--seal)]"><CountUp value={r.total} /><span className="text-xl">점</span></div>
           <p className="mt-2 text-sm">{r.verdict}</p>
         </Card>
         <H2>항목별 분석</H2>

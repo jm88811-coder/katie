@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { Dodlyeong } from "@/components/saju/motion";
 import { BirthForm, Card, H2, SavedProfiles, StreakBadge } from "@/components/saju/ui";
 import { BRAND, FAQ } from "@/lib/saju/content";
 
 const SERVICES = [
+  { href: "/saju/path", t: "인생 전략서", d: "철학 렌즈·인생 시즌·위기→기회 카드·분기 로드맵" },
   { href: "/saju/result", t: "종합 사주·만세력", d: "4주·오행·십성·용신·대운 전부 무료" },
   { href: "/saju/today", t: "오늘의 운세", d: "내 일간 기준, 매일 달라지는 4대 운세" },
   { href: "/saju/year", t: "2027 신년운세", d: "세운·월운으로 보는 12개월 흐름" },
@@ -22,6 +24,7 @@ export default function SajuHome() {
   return (
     <>
       <section className="py-4 text-center">
+        <div className="mb-2 flex justify-center"><Dodlyeong mood="smile" size={112} /></div>
         <p className="mb-2 text-sm text-[var(--seal)]">무료 · 가입 없음 · 서버 저장 없음</p>
         <h1 className="serif text-3xl font-bold leading-tight sm:text-4xl">{BRAND.tagline}</h1>
         <p className="mx-auto mt-3 max-w-md text-sm text-[var(--ink-soft)]">

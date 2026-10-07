@@ -1,5 +1,6 @@
 "use client";
 
+import { CountUp } from "@/components/saju/motion";
 import { ChartGate } from "@/components/saju/Gate";
 import { AdSlot, Card, H2, ScoreBar } from "@/components/saju/ui";
 import { analyze, pillarName, pillarHanja } from "@/lib/saju/core";
@@ -18,7 +19,7 @@ export default function YearPage() {
             <p className="text-sm text-[var(--ink-soft)]">{YEAR}년 {pillarName(y.yearPillar)}년({pillarHanja(y.yearPillar)}) · 나에게 {y.god}의 해</p>
             <h1 className="serif mt-1 text-2xl font-bold">{chart.input.name || "당신"}의 {YEAR} 신년운세</h1>
             <Card className="mt-5 text-center">
-              <div className="serif text-5xl font-bold text-[var(--seal)]">{y.score}<span className="text-xl">점</span></div>
+              <div className="serif text-5xl font-bold text-[var(--seal)]"><CountUp value={y.score} /><span className="text-xl">점</span></div>
               <p className="mt-2 text-sm leading-relaxed">{y.summary}</p>
             </Card>
 

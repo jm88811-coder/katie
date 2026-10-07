@@ -20,7 +20,7 @@ export function SajuShell({ children }: { children: ReactNode }) {
           <Link href="/saju" className="serif mr-2 text-base font-bold text-[var(--seal)]">
             {BRAND.name}
           </Link>
-          {[["/saju", "내 사주"], ["/saju/today", "오늘의 운세"], ["/saju/year", "신년운세"], ["/saju/match", "궁합"], ["/saju/book", "상담"]].map(
+          {[["/saju", "내 사주"], ["/saju/path", "인생 전략서"], ["/saju/today", "오늘의 운세"], ["/saju/year", "신년운세"], ["/saju/match", "궁합"], ["/saju/book", "상담"]].map(
             ([href, label]) => (
               <Link key={href} href={href} className="text-[var(--ink-soft)] hover:text-[var(--ink)]">
                 {label}

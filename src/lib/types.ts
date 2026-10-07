@@ -24,11 +24,13 @@ export interface StepTask {
 }
 
 export interface JourneyStep {
-  id: string; // e.g. "step1"
+  id: string; // e.g. "stage1"
   order: number;
   title: string;
   subtitle: string;
   summary: string;
+  /** 이 단계에서 흔히 멈추게 하는 신호 (마음 습관 점검) */
+  pitfall?: string;
   keyPoints: string[];
   tasks: StepTask[];
   reflectionPrompt: string;

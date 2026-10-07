@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, motion, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import { animate, motion, useInView, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 // ───────── 스크롤 진입 fade-up ─────────
@@ -105,5 +105,34 @@ export function DodlyeongSays({ mood = "idle", text }: { mood?: Mood; text: stri
       <div className="shrink-0"><Dodlyeong mood={mood} size={84} /></div>
       <Speech text={text} className="flex-1" />
     </div>
+  );
+}
+
+// ───────── 서사형 챕터 / 스크롤 진행 바 ─────────
+export function ScrollProgress() {
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 24, restDelta: 0.001 });
+  return (
+    <motion.div
+      aria-hidden
+      className="fixed inset-x-0 top-0 z-30 h-0.5 origin-left bg-[var(--seal)]"
+      style={{ scaleX: reduce ? scrollYProgress : scaleX }}
+    />
+  );
+}
+
+export function Chapter({ no, kicker, title, children }: { no: number; kicker: string; title: string; children: ReactNode }) {
+  return (
+    <section className="mt-16 first:mt-6" aria-labelledby={`ch-${no}`}>
+      <Reveal>
+        <div className="mb-5">
+          <div className="text-xs tracking-widest text-[var(--seal)]">제 {no} 장 · {kicker}</div>
+          <h2 id={`ch-${no}`} className="serif mt-2 text-2xl font-bold leading-snug sm:text-3xl">{title}</h2>
+          <div className="mt-3 h-px w-12 bg-[var(--seal)]" />
+        </div>
+      </Reveal>
+      {children}
+    </section>
   );
 }

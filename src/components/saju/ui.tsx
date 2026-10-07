@@ -9,12 +9,14 @@ import {
   type BirthInput, type Daewoon, type Pillar, type SajuChart,
 } from "@/lib/saju/core";
 import { BRAND } from "@/lib/saju/content";
+import { useLocalState } from "@/lib/storage";
 import { dayKey, useProfiles, useStreak, useWaitlist } from "@/lib/saju/store";
 
 // ───────── 공통 ─────────
 export function SajuShell({ children }: { children: ReactNode }) {
+  const { value: theme, setValue: setTheme } = useLocalState<"dark" | "light">("saju:theme", "dark");
   return (
-    <div className="saju min-h-screen">
+    <div className="saju min-h-screen" data-theme={theme}>
       <header className="sticky top-0 z-20 border-b border-[var(--line)] bg-[var(--paper)]/90 backdrop-blur">
         <nav className="mx-auto flex max-w-3xl items-center gap-4 overflow-x-auto px-4 py-3 text-sm whitespace-nowrap">
           <Link href="/saju" className="serif mr-2 text-base font-bold text-[var(--seal)]">
@@ -27,6 +29,14 @@ export function SajuShell({ children }: { children: ReactNode }) {
               </Link>
             )
           )}
+          <button
+            type="button"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
+            className="ml-auto shrink-0 rounded-full border border-[var(--line)] px-2.5 py-1 text-xs text-[var(--ink-soft)]"
+          >
+            {theme === "dark" ? "☀ 한지" : "🌙 밤"}
+          </button>
         </nav>
       </header>
       <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>
@@ -124,7 +134,7 @@ export function BirthForm({
           <div className="flex gap-2">
             {([["F", "여성"], ["M", "남성"]] as const).map(([v, l]) => (
               <button key={v} type="button" onClick={() => setGender(v)} aria-pressed={gender === v}
-                className={`flex-1 rounded-lg border px-3 py-2.5 text-sm ${gender === v ? "border-[var(--seal)] bg-[var(--seal)] text-white" : "border-[var(--line)]"}`}>
+                className={`flex-1 rounded-lg border px-3 py-2.5 text-sm ${gender === v ? "border-[var(--seal)] bg-[var(--seal)] text-[var(--on-seal)]" : "border-[var(--line)]"}`}>
                 {l}
               </button>
             ))}
@@ -135,7 +145,7 @@ export function BirthForm({
           <div className="flex gap-2">
             {([["solar", "양력"], ["lunar", "음력"]] as const).map(([v, l]) => (
               <button key={v} type="button" onClick={() => setCalendar(v)} aria-pressed={calendar === v}
-                className={`flex-1 rounded-lg border px-3 py-2.5 text-sm ${calendar === v ? "border-[var(--seal)] bg-[var(--seal)] text-white" : "border-[var(--line)]"}`}>
+                className={`flex-1 rounded-lg border px-3 py-2.5 text-sm ${calendar === v ? "border-[var(--seal)] bg-[var(--seal)] text-[var(--on-seal)]" : "border-[var(--line)]"}`}>
                 {l}
               </button>
             ))}
@@ -163,7 +173,7 @@ export function BirthForm({
       </div>
 
       {err && <p role="alert" className="text-sm text-[var(--seal)]">{err}</p>}
-      <button type="submit" className="rounded-xl bg-[var(--seal)] px-5 py-3.5 text-base font-semibold text-white hover:opacity-90">
+      <button type="submit" className="rounded-xl bg-[var(--seal)] px-5 py-3.5 text-base font-semibold text-[var(--on-seal)] hover:opacity-90">
         {submitLabel}
       </button>
       <p className="text-xs text-[var(--ink-soft)]">가입·결제 없음 · 입력값은 이 기기에서만 계산됩니다{prefix ? "" : ""}.</p>
@@ -305,7 +315,7 @@ export function LockedReport({ id, title, body, unlockStreak }: { id: string; ti
       {!open && (
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
           <span className="text-[var(--ink-soft)]">현재 {streak}일째 · 매일 오늘의 운세를 열면 열립니다.</span>
-          <Link href="/saju/today" className="rounded-lg bg-[var(--seal)] px-3 py-1.5 text-white">오늘의 운세 열기</Link>
+          <Link href="/saju/today" className="rounded-lg bg-[var(--seal)] px-3 py-1.5 text-[var(--on-seal)]">오늘의 운세 열기</Link>
           <button onClick={() => join(id)} disabled={joined.includes(id)} className="rounded-lg border border-[var(--line)] px-3 py-1.5 disabled:opacity-60">
             {joined.includes(id) ? "전문가 풀리포트 대기 신청됨" : "전문가 풀리포트 알림 신청"}
           </button>

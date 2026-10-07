@@ -29,7 +29,7 @@ export default function ResultPage() {
             <h1 className="serif mt-1 text-2xl font-bold leading-snug">{sum.headline}</h1>
             <div className="mt-3 flex flex-wrap gap-2"><ShareButton /><StreakBadge record /></div>
             <div className="mt-5"><DodlyeongSays mood="divine" text={dodlyeongSay(chart, an, pickLenses(chart, an))} /></div>
-            <Link href={`/saju/path?${new URLSearchParams(location.search)}`} className="mt-3 block rounded-xl bg-[var(--seal)] px-5 py-3 text-center font-semibold text-white">달도령의 인생 전략서 보기 →</Link>
+            <Link href={`/saju/path?${new URLSearchParams(location.search)}`} className="mt-3 block rounded-xl bg-[var(--seal)] px-5 py-3 text-center font-semibold text-[var(--on-seal)]">서사형 인생 전략서 보기 →</Link>
 
             <H2>사주팔자 (만세력)</H2>
             <PillarsTable chart={chart} />

@@ -3,7 +3,7 @@ import {
   type Analysis, type Daewoon, type SajuChart, type TenGod,
 } from "./core";
 import { DAY_MASTER } from "./content";
-import { isChung, yearFortune, type YearFortune } from "./fortune";
+import { dailyFortune, isChung, yearFortune, type YearFortune } from "./fortune";
 
 // ───────── 철학 렌즈 ─────────
 export interface Lens {
@@ -286,6 +286,92 @@ export function quarterRoadmap(yf: YearFortune): Quarter[] {
       evidence: ms.map((m) => `${m.month}월 ${pillarName(m.pillar)}(${m.god} ${m.score})`).join(" · "),
     };
   });
+}
+
+// ───────── 앞으로 90일: 좋은 날 / 조심할 날 ─────────
+const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+
+export interface DayPick {
+  date: Date;
+  label: string;
+  score: number;
+  pillar: string;
+  god: TenGod;
+  relation: string | null;
+  advice: string;
+  avoid: string;
+  evidence: string[];
+}
+
+export function dayPicks(chart: SajuChart, an: Analysis, from: Date, days = 90): { good: DayPick[]; caution: DayPick[] } {
+  const all: DayPick[] = [];
+  for (let i = 0; i < days; i++) {
+    const d = new Date(from.getFullYear(), from.getMonth(), from.getDate() + i);
+    const f = dailyFortune(chart, an, d);
+    all.push({
+      date: d,
+      label: `${d.getMonth() + 1}/${d.getDate()}(${WEEKDAY[d.getDay()]})`,
+      score: f.total,
+      pillar: pillarName(f.dayPillar),
+      god: f.god,
+      relation: f.relation,
+      advice: f.advice,
+      avoid: GOD_ACTION[f.god].avoid,
+      evidence: [`${pillarName(f.dayPillar)}일 — 일간 기준 ${f.god}`, ...(f.relation ? [f.relation.trim()] : [])],
+    });
+  }
+  const byScore = [...all].sort((a, b) => b.score - a.score || a.date.getTime() - b.date.getTime());
+  const good = byScore.slice(0, 10);
+  const goodSet = new Set(good);
+  const caution = [...byScore].reverse().filter((x) => !goodSet.has(x)).slice(0, 10);
+  const byDate = (a: DayPick, b: DayPick) => a.date.getTime() - b.date.getTime();
+  return { good: good.sort(byDate), caution: caution.sort(byDate) };
+}
+
+// ───────── 지난 이야기: 과거 회고 ─────────
+const RETRO: Record<TenGod, string> = {
+  비견: "비슷한 처지의 사람과 함께하거나, 경쟁하며 내 자리를 다시 확인한 일이 있었나요?",
+  겁재: "돈이 예상보다 빨리 나가거나, 주변과의 비교로 마음이 흔들린 시기가 아니었나요?",
+  식신: "하고 싶은 일을 시도하거나, 여유와 즐거움이 늘어난 시기였나요?",
+  상관: "하고 싶은 말을 했다가 마찰이 생기거나, 새로운 아이디어에 이끌려 방향을 바꾼 적이 있나요?",
+  편재: "활동 범위가 넓어지고 사람·기회·지출이 함께 늘어난 해였나요?",
+  정재: "수입이나 생활 기반이 안정되고, 현실적인 결실을 챙긴 해였나요?",
+  편관: "책임이나 압박이 커져 힘들었지만, 그만큼 단련된 해였나요?",
+  정관: "직장·학교 같은 공식적인 자리에서 인정받거나 역할이 바뀐 해였나요?",
+  편인: "공부나 고민이 깊어지고, 혼자 정리하는 시간이 길었던 해였나요?",
+  정인: "도움을 준 사람이나 배움·문서(계약·합격)와 인연이 닿은 해였나요?",
+};
+
+export interface RetroItem {
+  title: string;
+  question: string;
+  evidence: string[];
+}
+
+export function retrospective(chart: SajuChart, an: Analysis, now = new Date()): RetroItem[] {
+  const items: RetroItem[] = [];
+  const thisYear = now.getFullYear();
+
+  const dwSwitch = daewoon(chart).list.find((d) => d.startYear <= thisYear && d.startYear >= thisYear - 8);
+  if (dwSwitch) {
+    items.push({
+      title: `${dwSwitch.startYear}년 무렵 — 10년 흐름이 바뀐 때`,
+      question: `${dwSwitch.startAge}세 즈음 대운이 ${pillarName(dwSwitch.pillar)}(${dwSwitch.god})으로 넘어갔습니다. 이 무렵 환경·관심사·사람이 크게 바뀐 기억이 있나요?`,
+      evidence: [`대운 전환 ${dwSwitch.startAge}세, 일간 기준 ${dwSwitch.god}`],
+    });
+  }
+  for (let y = thisYear - 1; y >= thisYear - 3; y--) {
+    if (y <= chart.solar.year) continue;
+    const yf = yearFortune(chart, an, y);
+    const ev = [`${y}년 ${pillarName(yf.yearPillar)}년 — 일간 기준 ${yf.god}`];
+    let extra = "";
+    if (isChung(chart.year.branch, yf.yearPillar.branch)) {
+      ev.push(`세운 ${BRANCHES[yf.yearPillar.branch]}와 연지 ${BRANCHES[chart.year.branch]}가 충`);
+      extra = " 이사·이직·관계 같은 환경 변화도 함께 있었는지 떠올려 보세요.";
+    }
+    items.push({ title: `${y}년 — ${yf.god}의 해`, question: `혹시 ${y}년에 ${RETRO[yf.god]}${extra}`, evidence: ev });
+  }
+  return items;
 }
 
 // ───────── 달도령의 한마디 ─────────

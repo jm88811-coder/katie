@@ -27,7 +27,7 @@ function Inner() {
           <label className="flex flex-col gap-1 text-sm">연락처 *<input className={field} type="tel" inputMode="tel" placeholder="010-0000-0000" value={contact} onChange={(e) => setContact(e.target.value)} required /></label>
           <label className="flex flex-col gap-1 text-sm">상담 주제<select className={field} value={topic} onChange={(e) => setTopic(e.target.value)}>{TOPICS.map((t) => <option key={t}>{t}</option>)}</select></label>
           <label className="flex flex-col gap-1 text-sm">궁금한 점<textarea className={field} rows={4} value={memo} onChange={(e) => setMemo(e.target.value)} /></label>
-          <button className="rounded-xl bg-[var(--seal)] px-5 py-3 font-semibold text-white">문자로 신청하기</button>
+          <button className="rounded-xl bg-[var(--seal)] px-5 py-3 font-semibold text-[var(--on-seal)]">문자로 신청하기</button>
         </form>
       </Card>
     </>

@@ -79,7 +79,7 @@ export function useHydrated() {
 
 export const STORAGE_KEYS = {
   profile: "founderstory:profile",
-  journeyProgress: "founderstory:journey-progress",
+  journeyProgress: "founderstory:journey-progress-v2",
   inspirationNotes: "founderstory:inspiration-notes",
   consultLog: "founderstory:consult-log",
 } as const;

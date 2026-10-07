@@ -3,10 +3,10 @@ import { StudyCategory } from "@/lib/types";
 export const STUDY_CATEGORIES: StudyCategory[] = [
   {
     id: "mindset",
-    title: "마인드셋 · 자의식",
+    title: "마인드셋 · 자기 점검",
     description: "사업가로서의 정체성과 의사결정 습관을 다진다.",
     topics: [
-      { id: "m1", label: "자의식 해체와 정체성 전환", detail: "손실회피·인정욕구·완벽주의가 의사결정에 미치는 영향을 이해한다 (docs/역행자-사업가-전략수립.md 1~2장 참고)." },
+      { id: "m1", label: "마음 점검과 역할 전환", detail: "손실 집착·체면·완벽 기대가 의사결정에 미치는 영향을 이해하고, 일을 받는 사람에서 구조를 만드는 사람으로 시선을 옮긴다 (docs/사업가-성장-여정.md 1단계 참고)." },
       { id: "m2", label: "실패를 데이터화하는 회고법", detail: "감정이 아닌 데이터 기반으로 실행 일지를 남기는 방법을 익힌다." },
       { id: "m3", label: "의사결정 프레임워크", detail: "가역적/비가역적 결정을 구분하고 속도와 신중함의 균형을 맞추는 법." },
     ],

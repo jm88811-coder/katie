@@ -56,6 +56,11 @@ export default function JourneyStepPage() {
             <p className="text-sm font-medium text-foreground/50">{step.subtitle}</p>
             <h1 className="text-2xl font-bold">{step.title}</h1>
             <p className="mt-3 text-foreground/70">{step.summary}</p>
+            {step.pitfall && (
+              <p className="mt-3 rounded-lg border border-black/10 px-3 py-2 text-sm text-foreground/70 dark:border-white/10">
+                <b>멈춤 신호</b> · {step.pitfall}
+              </p>
+            )}
           </div>
 
           <Card>

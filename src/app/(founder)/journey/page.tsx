@@ -19,7 +19,7 @@ export default function JourneyPage() {
         return (
           <div className="flex flex-col gap-6">
             <div>
-              <h1 className="text-2xl font-bold">나의 사업가 여정 — 7장</h1>
+              <h1 className="text-2xl font-bold">나의 사업가 여정 — {JOURNEY_STEPS.length}단계</h1>
               <p className="mt-1 text-sm text-foreground/60">
                 {profile.name}님을 위한 추천 순서:{" "}
                 {analysis.recommendedStepIds

@@ -41,7 +41,7 @@ export function SajuShell({ children }: { children: ReactNode }) {
       </header>
       <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>
       <footer className="mx-auto max-w-3xl px-4 pb-12 text-xs leading-relaxed text-[var(--ink-soft)]">
-        본 서비스의 결과는 명리학에 기반한 오락·참고용입니다. 입력 정보는 서버로 전송되지 않고 이 기기에만 저장됩니다.
+        본 서비스의 결과는 명리학에 기반한 오락·참고용입니다. 입력 정보는 이 기기에만 저장되며, “AI 풀이”를 직접 요청한 경우에만 풀이 생성을 위해 Anthropic API로 전송됩니다.
         중요한 결정은 전문가와 상의하세요.
       </footer>
     </div>

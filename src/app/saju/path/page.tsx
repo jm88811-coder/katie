@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ChartGate } from "@/components/saju/Gate";
+import { AiLetter } from "@/components/saju/AiLetter";
 import { Chapter, DodlyeongSays, Reveal, ScrollProgress } from "@/components/saju/motion";
 import { AdSlot, Card, LockedReport, PillarsTable, ScoreBar, ShareButton, StreakBadge } from "@/components/saju/ui";
 import { analyze, pillarName } from "@/lib/saju/core";
@@ -167,7 +168,11 @@ export default function PathPage() {
               </div>
             </Chapter>
 
-            <Chapter no={7} kicker="마무리" title="매일 찾아오면, 더 깊은 이야기가 열립니다">
+            <Chapter no={7} kicker="달도령의 편지" title="지금까지의 풀이를 한 통의 편지로 엮어 드립니다">
+              <AiLetter birth={chart.input} />
+            </Chapter>
+
+            <Chapter no={8} kicker="마무리" title="매일 찾아오면, 더 깊은 이야기가 열립니다">
               <div className="flex flex-col gap-3">
                 {deepSections(chart, an).map((s) => <LockedReport key={s.id} {...s} />)}
               </div>

@@ -46,7 +46,7 @@ export default function Home() {
           <Card>
             <h3 className="mb-1 font-semibold">영화 같은 7단계 여정</h3>
             <p className="text-sm text-foreground/60">
-              자의식 해체부터 부의 그릇 확장까지, 챕터별 과제로 실제 실행을 이끕니다.
+              마음 점검부터 성장기 리스크 관리까지, 챕터별 과제로 실제 실행을 이끕니다.
             </p>
           </Card>
           <Card>

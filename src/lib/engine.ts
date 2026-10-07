@@ -25,7 +25,7 @@ const MBTI_ARCHETYPES: Record<MBTI, MbtiArchetype> = {
   ISFP: { label: "감각 장인형", strength: "제품/서비스의 완성도와 디테일에 강하다.", watchout: "확장·위임보다 혼자 만드는 것을 선호할 수 있다.", focusStepId: "step2" },
   ESTP: { label: "실행 스프린터형", strength: "빠른 실행과 현장 대응력이 강점이다.", watchout: "장기 계획과 리스크 관리가 약할 수 있다.", focusStepId: "step7" },
   ESFP: { label: "무대 위 크리에이터형", strength: "콘텐츠/퍼포먼스로 주목을 끄는 데 강하다.", watchout: "반복 업무 시스템화에 흥미를 잃기 쉽다.", focusStepId: "step4" },
-  모름: { label: "탐색형", strength: "아직 강점이 명확히 드러나지 않았지만 그만큼 유연하다.", watchout: "먼저 자의식/정체성 단계부터 차근히 점검해야 한다.", focusStepId: "step1" },
+  모름: { label: "탐색형", strength: "아직 강점이 명확히 드러나지 않았지만 그만큼 유연하다.", watchout: "먼저 마음 점검/역할 전환 단계부터 차근히 점검해야 한다.", focusStepId: "step1" },
 };
 
 interface KeywordRule {
@@ -35,12 +35,12 @@ interface KeywordRule {
 }
 
 const KEYWORD_RULES: KeywordRule[] = [
-  { keywords: ["완벽", "미루", "두려", "자신없", "실패할까"], stepId: "step1", note: "완벽주의/두려움 패턴이 보인다. 1장(자의식 해체)의 MVP 2주 출시 훈련이 먼저다." },
-  { keywords: ["직장", "퇴사", "눈치", "상사", "월급"], stepId: "step2", note: "직장인 정체성이 강하게 남아있다. 2장(정체성 변화)에서 정체성 선언문부터 다시 써보자." },
-  { keywords: ["돈", "투자", "손실", "빚", "자금"], stepId: "step7", note: "자금/현금흐름에 대한 경험이 두드러진다. 7장(부의 그릇)에서 현금흐름 관리부터 점검하자." },
-  { keywords: ["팀", "직원", "혼자", "위임", "동업"], stepId: "step4", note: "협업/위임 경험이 중요한 축이다. 4장(뇌 자동화)과 위임 루틴을 함께 설계하자." },
-  { keywords: ["마케팅", "고객", "안팔", "매출", "홍보"], stepId: "step5", note: "세일즈/마케팅 관련 이슈가 보인다. 5장(역행자의 지식) 중 설득/세일즈 영역을 먼저 학습하자." },
-  { keywords: ["아이템", "아이디어", "뭘 팔", "아이템선정"], stepId: "step6", note: "아이템 선정이 핵심 과제다. 6장의 4대 기준으로 후보를 채점해보자." },
+  { keywords: ["완벽", "미루", "두려", "자신없", "실패할까"], stepId: "step1", note: "완벽주의/두려움 패턴이 보인다. 1장(마음의 브레이크 점검)의 MVP 2주 출시 훈련이 먼저다." },
+  { keywords: ["직장", "퇴사", "눈치", "상사", "월급"], stepId: "step2", note: "직장인의 역할 습관이 강하게 남아있다. 2장(사업가의 시선 갖기)에서 역할 선언문부터 다시 써보자." },
+  { keywords: ["돈", "투자", "손실", "빚", "자금"], stepId: "step7", note: "자금/현금흐름에 대한 경험이 두드러진다. 7장(성장기 리스크 관리)에서 현금흐름 관리부터 점검하자." },
+  { keywords: ["팀", "직원", "혼자", "위임", "동업"], stepId: "step4", note: "협업/위임 경험이 중요한 축이다. 4장(일상 루틴 설계)과 위임 루틴을 함께 설계하자." },
+  { keywords: ["마케팅", "고객", "안팔", "매출", "홍보"], stepId: "step5", note: "세일즈/마케팅 관련 이슈가 보인다. 5장(사업가의 공부 지도) 중 설득과 마케팅 영역을 먼저 학습하자." },
+  { keywords: ["아이템", "아이디어", "뭘 팔", "아이템선정"], stepId: "step6", note: "아이템 선정이 핵심 과제다. 6장의 4가지 기준으로 후보를 채점해보자." },
 ];
 
 export interface ProfileAnalysis {

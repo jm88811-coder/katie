@@ -34,8 +34,8 @@ export default function AboutPage() {
         <h1 className="text-2xl font-bold">파운더스토리 소개</h1>
         <p className="mt-2 text-foreground/70">
           이름, 생년월일, MBTI/성향, 실패담과 성공담, 지향점·목적·목표를 입력받아 &mdash; 마치
-          사주를 보듯 &mdash; 나만의 사업가 원형을 진단하고, 자청 『역행자』의 7단계 모델을
-          재구성한 챕터로 Step 1부터 사업가로 성장하도록 이끄는 코칭 앱입니다.
+          사주를 보듯 &mdash; 나만의 사업가 원형을 진단하고, 자체 개발한 7단계 사업가 성장 프레임을
+          챕터로 풀어 Step 1부터 사업가로 성장하도록 이끄는 코칭 앱입니다.
         </p>
       </div>
 

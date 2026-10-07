@@ -24,3 +24,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ── /saju 한지·먹 톤 ── */
+.saju {
+  --paper: #f6f1e7;
+  --paper-2: #efe7d6;
+  --ink: #1f1b16;
+  --ink-soft: #5b5246;
+  --line: rgba(31, 27, 22, 0.14);
+  --seal: #b8342b;
+  background: var(--paper);
+  color: var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  .saju {
+    --paper: #17130f;
+    --paper-2: #211b15;
+    --ink: #f1e9da;
+    --ink-soft: #b3a894;
+    --line: rgba(241, 233, 218, 0.16);
+    --seal: #e5604f;
+  }
+}
+.saju .serif { font-family: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", serif; }
+.saju .card { background: var(--paper-2); border: 1px solid var(--line); border-radius: 16px; }
